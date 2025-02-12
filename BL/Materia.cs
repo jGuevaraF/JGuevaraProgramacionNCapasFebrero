@@ -10,7 +10,49 @@ namespace BL
 {
     public class Materia
     {
-        public static void Add(ML.Materia materia)
+        public static ML.Result Add(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Connection.GetConnection()))
+                {
+                    string query = "MateriaAdd";
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = context;
+                    cmd.CommandText = query;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Nombre", materia.Nombre);
+                    cmd.Parameters.AddWithValue("@Creditos", materia.Creditos);
+                    cmd.Parameters.AddWithValue("@Costo", materia.Costo);
+
+                    context.Open();
+                    int filasAfectadas = cmd.ExecuteNonQuery();
+
+                    if(filasAfectadas > 0)
+                    {
+                        result.Correct = true;
+                    } else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se pudo insertar";
+                    }
+                }
+               
+
+            } catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+        public static void AddSqlClient(ML.Materia materia)
         {
             //1 abrir una conexion con la BD
             try
