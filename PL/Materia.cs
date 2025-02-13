@@ -19,7 +19,7 @@ namespace PL
             Console.WriteLine("Dame el costo");
             materia.Costo = Convert.ToDecimal(Console.ReadLine());
 
-            BL.Materia.Add(materia);
+            BL.Materia.AddEF(materia);
         }
         public static void Delete() //logica para pedir la informacion
         {

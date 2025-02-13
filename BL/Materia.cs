@@ -32,18 +32,20 @@ namespace BL
                     context.Open();
                     int filasAfectadas = cmd.ExecuteNonQuery();
 
-                    if(filasAfectadas > 0)
+                    if (filasAfectadas > 0)
                     {
                         result.Correct = true;
-                    } else
+                    }
+                    else
                     {
                         result.Correct = false;
                         result.ErrorMessage = "No se pudo insertar";
                     }
                 }
-               
 
-            } catch (Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
@@ -230,6 +232,35 @@ namespace BL
             }
 
             return result;
+        }
+
+        public static ML.Result AddEF(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities contex = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo);
+
+                    if (rowsAffect > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+
         }
     }
 }
