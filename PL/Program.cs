@@ -10,10 +10,11 @@ namespace PL
     {
         static void Main(string[] args)
         {
-            Materia.Add();
+            //Materia.Add();
             //Materia.Delete();
-            //Materia.GetAll();
+            Materia.GetAll();
             //Materia.GetById();
+            //Materia.Update();
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -241,7 +243,7 @@ namespace BL
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities contex = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo);
+                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, DateTime.Parse(materia.Fecha));
 
                     if (rowsAffect > 0)
                     {
@@ -261,6 +263,241 @@ namespace BL
             }
             return result;
 
+        }
+
+        public static ML.Result GetAllEF()
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    var query = context.MateriaGetAll().ToList();
+
+                    if (query.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+
+
+
+                        foreach (var objBD in query)
+                        {
+                            ML.Materia materia = new ML.Materia();
+                            materia.IdMateria = objBD.IdMateria;
+                            materia.Fecha = objBD.Fecha; //ya no traigo la hora
+                            result.Objects.Add(materia);
+                        }
+
+                        result.Correct = true;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
+
+
+        public static ML.Result GetByIdEF(int idMateria)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    var query = context.MateriaGetAll().FirstOrDefault();
+
+                    if (query != null)
+                    {
+                        //si trajo registro
+                        ML.Materia materia = new ML.Materia();
+                        materia.IdMateria = query.IdMateria;
+                        materia.Nombre = query.Nombre;
+
+                        result.Object = materia; //BOXING
+
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        //no trajo registros
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
+
+        public static ML.Result AddLINQ(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    DL_EF.Materia materiaBD = new DL_EF.Materia();
+                    materiaBD.Nombre = materia.Nombre;
+                    materiaBD.Creditos = materia.Creditos;
+                    materiaBD.Costo = materia.Costo;
+                    materiaBD.Fecha = DateTime.Parse(materia.Fecha);
+
+                    context.Materias.Add(materiaBD); //GENERA EL INSERT
+                                                     //INSERT INTO MATERIA VALUES ()
+
+                    int filasAfectadas = context.SaveChanges();  //EJECUTA EL insert
+
+                    if (filasAfectadas > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "Error al insertar";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
+        public static ML.Result DeleteLINQ(int idMateria)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    //1. Busca => SELECT
+                    var soloDelete = (from materia in context.Materias
+                                      where materia.IdMateria == idMateria
+                                      select materia).FirstOrDefault();
+                    //SELECT * FROM Materia
+
+                    var buscarBIEN = (from materia in context.Materias
+                                      where materia.IdMateria == idMateria
+                                      select new
+                                      {
+                                          //ALIAS = VALOR
+                                          IdMateria = materia.IdMateria,
+                                          Nombre = materia.Nombre,
+                                          Creditos = materia.Creditos,
+                                          Costo = materia.Costo,
+                                          Fecha = materia.Fecha
+                                      }).SingleOrDefault();
+                    //SELECT IdMateria, Nombre, Costo, Creditos, Fecha FROM Materia
+                    //WHERE IdMateria = @IdMateria
+
+                    if (soloDelete != null)
+                    {
+                        //encontro un registro
+
+                        //2. Delete = DELETE
+                        context.Materias.Attach(soloDelete);
+
+                        context.Materias.Remove(soloDelete); //generando el query
+                                                             //DELETE MATERIA WHERE ID = @ID
+
+                        int filasAfectadas = context.SaveChanges(); //ejecuta el query
+
+                        if (filasAfectadas > 0)
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                            result.ErrorMessage = "No se pudo eliminar";
+                        }
+
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
+        public static ML.Result UpdateLINQ(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    var busqueda = (from materiaBD in context.Materias
+                                    where materiaBD.IdMateria == materia.IdMateria
+                                    select materiaBD).SingleOrDefault();
+                    //SELECT * FROM MATERIA WHERE
+
+                    if (busqueda != null)
+                    {
+                        //encontro algo
+
+                        //SET NOMBRE = @NOMBRE
+                        busqueda.Nombre = materia.Nombre;
+
+                        //COSTO = @COSTO
+                        busqueda.Costo = materia.Costo;
+                        busqueda.Creditos = materia.Creditos;
+                        busqueda.Fecha = Convert.ToDateTime(materia.Fecha);
+
+                        int filasAfectadas = context.SaveChanges(); //ejeucta el update
+
+                        if (filasAfectadas > 0)
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                            result.ErrorMessage = "Hubo un error";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
         }
     }
 }

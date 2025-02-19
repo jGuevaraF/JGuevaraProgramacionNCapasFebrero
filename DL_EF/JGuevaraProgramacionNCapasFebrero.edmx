@@ -4,9 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="JGuevaraProgramacionNCapasFebreroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'JGuevaraProgramacionNCapasFebrero.dbo.Materia' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+    <Schema Namespace="JGuevaraProgramacionNCapasFebreroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Materia">
           <Key>
             <PropertyRef Name="IdMateria" />
@@ -15,27 +13,32 @@ warning 6002: The table/view 'JGuevaraProgramacionNCapasFebrero.dbo.Materia' doe
           <Property Name="Nombre" Type="varchar" MaxLength="20" />
           <Property Name="Creditos" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Costo" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Fecha" Type="date" />
         </EntityType>
         <Function Name="MateriaAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="Creditos" Type="decimal" Mode="In" />
           <Parameter Name="Costo" Type="decimal" Mode="In" />
+          <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
+        <Function Name="MateriaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="JGuevaraProgramacionNCapasFebreroModelStoreContainer">
-          <EntitySet Name="Materia" EntityType="Self.Materia" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Materia].[IdMateria] AS [IdMateria], 
-    [Materia].[Nombre] AS [Nombre], 
-    [Materia].[Creditos] AS [Creditos], 
-    [Materia].[Costo] AS [Costo]
-    FROM [dbo].[Materia] AS [Materia]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="JGuevaraProgramacionNCapasFebreroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="JGuevaraProgramacionNCapasFebreroEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Materias" EntityType="JGuevaraProgramacionNCapasFebreroModel.Materia" />
+          <FunctionImport Name="MateriaAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Creditos" Mode="In" Type="Decimal" />
+            <Parameter Name="Costo" Mode="In" Type="Decimal" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(JGuevaraProgramacionNCapasFebreroModel.MateriaGetAll_Result)" />
+        </EntityContainer>
         <EntityType Name="Materia">
           <Key>
             <PropertyRef Name="IdMateria" />
@@ -44,15 +47,15 @@ warning 6002: The table/view 'JGuevaraProgramacionNCapasFebrero.dbo.Materia' doe
           <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Creditos" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="Costo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
         </EntityType>
-        <EntityContainer Name="JGuevaraProgramacionNCapasFebreroEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Materias" EntityType="Self.Materia" />
-          <FunctionImport Name="MateriaAdd">
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-            <Parameter Name="Creditos" Mode="In" Type="Decimal" />
-            <Parameter Name="Costo" Mode="In" Type="Decimal" />
-          </FunctionImport>
-        </EntityContainer>
+        <ComplexType Name="MateriaGetAll_Result">
+          <Property Type="Int32" Name="IdMateria" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Creditos" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Costo" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="Fecha" Nullable="true" MaxLength="30" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -62,14 +65,26 @@ warning 6002: The table/view 'JGuevaraProgramacionNCapasFebrero.dbo.Materia' doe
           <EntitySetMapping Name="Materias">
             <EntityTypeMapping TypeName="JGuevaraProgramacionNCapasFebreroModel.Materia">
               <MappingFragment StoreEntitySet="Materia">
-                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="MateriaAdd" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.MateriaAdd" />
+          <FunctionImportMapping FunctionImportName="MateriaGetAll" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.MateriaGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JGuevaraProgramacionNCapasFebreroModel.MateriaGetAll_Result">
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

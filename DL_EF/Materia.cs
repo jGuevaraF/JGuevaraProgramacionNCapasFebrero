@@ -18,5 +18,6 @@ namespace DL_EF
         public string Nombre { get; set; }
         public Nullable<decimal> Creditos { get; set; }
         public Nullable<decimal> Costo { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
     }
 }

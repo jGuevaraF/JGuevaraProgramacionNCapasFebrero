@@ -29,7 +29,7 @@ namespace DL_EF
     
         public virtual DbSet<Materia> Materias { get; set; }
     
-        public virtual int MateriaAdd(string nombre, Nullable<decimal> creditos, Nullable<decimal> costo)
+        public virtual int MateriaAdd(string nombre, Nullable<decimal> creditos, Nullable<decimal> costo, Nullable<System.DateTime> fecha)
         {
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
@@ -43,7 +43,16 @@ namespace DL_EF
                 new ObjectParameter("Costo", costo) :
                 new ObjectParameter("Costo", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaAdd", nombreParameter, creditosParameter, costoParameter);
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaAdd", nombreParameter, creditosParameter, costoParameter, fechaParameter);
+        }
+    
+        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll");
         }
     }
 }

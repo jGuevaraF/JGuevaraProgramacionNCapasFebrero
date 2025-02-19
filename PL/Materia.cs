@@ -18,8 +18,10 @@ namespace PL
             materia.Creditos = Convert.ToDecimal(Console.ReadLine());
             Console.WriteLine("Dame el costo");
             materia.Costo = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("Dame la fecha");
+            materia.Fecha = Console.ReadLine();
 
-            BL.Materia.AddEF(materia);
+            BL.Materia.AddLINQ(materia);
         }
         public static void Delete() //logica para pedir la informacion
         {
@@ -27,11 +29,11 @@ namespace PL
             Console.WriteLine("Dame el id de la materia que quieres eliminar");
             int idMateria = Convert.ToInt32(Console.ReadLine());
 
-            BL.Materia.Delete(idMateria);
+            BL.Materia.DeleteLINQ(idMateria);
         }
         public static void GetAll()
         {
-            ML.Result result = BL.Materia.GetAll();
+            ML.Result result = BL.Materia.GetAllEF();
 
             if (result.Correct)
             {
@@ -51,7 +53,7 @@ namespace PL
             Console.WriteLine("Dame el id que quieres buscar");
             int idMateria = Convert.ToInt32(Console.ReadLine());
 
-            ML.Result result = BL.Materia.GetById(idMateria);
+            ML.Result result = BL.Materia.GetByIdEF(idMateria);
 
             if (result.Correct)
             {
@@ -64,6 +66,25 @@ namespace PL
             {
                 Console.WriteLine("error " + result.ErrorMessage);
             }
+        }
+
+
+        public static void Update() //logica para pedir la informacion
+        {
+            ML.Materia materia = new ML.Materia();
+
+            Console.WriteLine("Dame el id de la materia");
+            materia.IdMateria = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Dame el nombre de la materia");
+            materia.Nombre = Console.ReadLine();
+            Console.WriteLine("Dame los creditos");
+            materia.Creditos = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("Dame el costo");
+            materia.Costo = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("Dame la fecha");
+            materia.Fecha = Console.ReadLine();
+
+            BL.Materia.UpdateLINQ(materia);
         }
     }
 }

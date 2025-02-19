@@ -1,0 +1,19 @@
+﻿@model ML.Materia
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/Materia/Estilos.css" />
+
+@using (Html.BeginForm("Form", "Materia", FormMethod.Post))
+{
+    @Html.LabelFor(model => model.Nombre, new { @style = "font-size: 100px;" , @class = "", @id="test" }) //Nombre
+    @Html.TextBoxFor(model => model.Nombre)
+
+    @Html.LabelFor(model => model.Costo)
+    @Html.TextBoxFor(model => model.Costo)
+
+    <button type="submit">Enviar</button>
+}
+
