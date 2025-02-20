@@ -8,6 +8,8 @@
 
 @using (Html.BeginForm("Form", "Materia", FormMethod.Post))
 {
+    @Html.HiddenFor(model => model.IdMateria)
+
     @Html.LabelFor(model => model.Nombre, new { @style = "font-size: 100px;" , @class = "", @id="test" }) //Nombre
     @Html.TextBoxFor(model => model.Nombre)
 

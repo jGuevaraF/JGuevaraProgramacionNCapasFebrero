@@ -33,19 +33,59 @@ namespace PL_MVC.Controllers
         }
 
         [HttpGet] //MOSTRANDO UNA VISTA
-        public ActionResult Form()
+        public ActionResult Form(int? IdMateria)
         {
             ML.Materia materia = new ML.Materia(); //materia es vacia
+
+            if (IdMateria == null)
+            {
+                //ADD
+                //Vacio
+
+            }
+            else
+            {
+                //ACTUALIZAR
+                //Lleno
+                //GetById
+                ML.Result result = BL.Materia.GetByIdEF(IdMateria.Value);
+                //result.Object
+                //UNBOXING
+                materia = (ML.Materia)result.Object; //Materia LLENA
+            }
+
             return View(materia);
+
         }
 
         [HttpPost]
         public ActionResult Form(ML.Materia materia)
         {
+            if(materia.IdMateria == 0)
+            {
+                //ADD
+            } else
+            {
+                //UPDATE
+            }
             BL.Materia.AddLINQ(materia);
 
             //GetAll
-            return View(materia);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int IdMateria)
+        {
+            BL.Materia.Delete(IdMateria);
+
+
+            //return View("GetAll");
+
+            return RedirectToAction("GetAll");
+
+
+
         }
     }
 }
