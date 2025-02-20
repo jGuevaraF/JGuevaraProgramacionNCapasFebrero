@@ -42,9 +42,9 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger">
+                                    <a href="@Url.Action("Delete","Materia", new { IdMateria = materia.IdMateria})" class="btn btn-danger">
                                         <i class="bi bi-trash3-fill"></i>
-                                    </button>
+                                    </a>
                                 </td>
                                 <td>@materia.Nombre</td>
                                 <td>@materia.Costo</td>

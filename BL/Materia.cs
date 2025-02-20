@@ -284,7 +284,7 @@ namespace BL
                         {
                             ML.Materia materia = new ML.Materia();
                             materia.IdMateria = objBD.IdMateria;
-                            materia.Fecha = objBD.Fecha; //ya no traigo la hora
+                            //materia.Fecha = objBD.Fecha; //ya no traigo la hora
                             result.Objects.Add(materia);
                         }
 
@@ -356,7 +356,7 @@ namespace BL
                     materiaBD.Nombre = materia.Nombre;
                     materiaBD.Creditos = materia.Creditos;
                     materiaBD.Costo = materia.Costo;
-                    materiaBD.Fecha = DateTime.Parse(materia.Fecha);
+                    //materiaBD.Fecha = DateTime.Parse(materia.Fecha);
 
                     context.Materias.Add(materiaBD); //GENERA EL INSERT
                                                      //INSERT INTO MATERIA VALUES ()
@@ -473,7 +473,7 @@ namespace BL
                         //COSTO = @COSTO
                         busqueda.Costo = materia.Costo;
                         busqueda.Creditos = materia.Creditos;
-                        busqueda.Fecha = Convert.ToDateTime(materia.Fecha);
+                        //busqueda.Fecha = Convert.ToDateTime(materia.Fecha);
 
                         int filasAfectadas = context.SaveChanges(); //ejeucta el update
 
