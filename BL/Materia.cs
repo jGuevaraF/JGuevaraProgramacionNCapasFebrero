@@ -499,5 +499,143 @@ namespace BL
 
             return result;
         }
+
+
+
+
+
+        //SQL CLIENT
+        //GETALL
+        public static ML.Result GetByIdSqlClient(int IdMateria)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Connection.GetConnection()))
+                {
+                    string query = "MateriaGetById";
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = query;
+                    cmd.Connection = context;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@IdMateria", IdMateria);
+
+                    //SqlDataAdapter
+                    //DataTable
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dataTable = new DataTable();
+
+                    adapter.Fill(dataTable);
+
+                    if (dataTable.Rows.Count == 1)
+                    {
+                        //si trajo informacion
+                        //sacar/obtener la informacion de la BD, para pasarsela a un modelo de ML.Materia, para pasarsela a result.objects
+
+                        //NULL cambio a VACIO
+
+                        //UNBOXING
+                        //Lista guardas ML.Materia
+                        //Obtienes/Sacas una materia como un objeto
+                        //Trabajar con ese objeto, puedas ocupar sus propiedades
+
+                        DataRow fila = dataTable.Rows[0];
+
+                        ML.Materia materia = new ML.Materia();
+                        materia.IdMateria = int.Parse(fila[0].ToString());
+                        materia.Nombre = fila["Nombre"].ToString();
+
+                        //los demas registros
+
+                        result.Object = materia;
+
+                        //OBTUVE TODA LA INFORMACION CORRECTAMENTE, CUANDO HAYA TERMINADO EL FOREACH
+
+                        result.Correct = true;
+
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No hay registros";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
+
+
+        //LINQ
+        //NO SE VAN A OCUPAR LOS SP
+        //NO OCUPO SqlClient, ENTITY FRAMEWORK
+        //GETALL
+
+        public static ML.Result GetAllLINQ()
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    var query = (from materia in context.Materias
+                                 where materia.IdMateria == 10
+                                 select new
+                                 {
+                                     //alias = valor
+                                     Id = materia.IdMateria,
+                                     NombreMateria = materia.Nombre,
+                                     CostoMateria = materia.Costo
+                                 }).SingleOrDefault();
+
+                    if (query != null)
+                    {
+
+
+                        ML.Materia materia = new ML.Materia();
+                        materia.IdMateria = query.Id;
+                        materia.Nombre = query.NombreMateria;
+
+                        //sacar los demas datos
+
+                        result.Object = materia;
+                        //OBTENER TODA LA INFORMACION CORRECTAMENTE
+                        result.Correct = true;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 }
