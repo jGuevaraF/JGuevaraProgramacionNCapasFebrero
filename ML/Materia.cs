@@ -13,7 +13,9 @@ namespace ML
         public decimal Creditos { get; set; }
         public decimal Costo { get; set; }
         public string Fecha { get; set; }
+        public ML.Semestre Semestre { get; set; } //FK
 
+        public string NombreRol { get; set; }
         public List<object> Materias { get; set; } //para mandar la informacion a la vista
     }
 }

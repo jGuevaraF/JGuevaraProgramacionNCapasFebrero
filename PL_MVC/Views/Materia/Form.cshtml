@@ -10,11 +10,14 @@
 {
     @Html.HiddenFor(model => model.IdMateria)
 
-    @Html.LabelFor(model => model.Nombre, new { @style = "font-size: 100px;" , @class = "", @id="test" }) //Nombre
+    @Html.LabelFor(model => model.Nombre, new { @style = "font-size: 100px;", @class = "", @id = "test" }) //Nombre
     @Html.TextBoxFor(model => model.Nombre)
 
     @Html.LabelFor(model => model.Costo)
     @Html.TextBoxFor(model => model.Costo)
+
+   
+    @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"))
 
     <button type="submit">Enviar</button>
 }

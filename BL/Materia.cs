@@ -243,7 +243,7 @@ namespace BL
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities contex = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, DateTime.Parse(materia.Fecha));
+                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, materia.Fecha);
 
                     if (rowsAffect > 0)
                     {
@@ -264,7 +264,27 @@ namespace BL
             return result;
 
         }
+        public static ML.Result DeleteEF(int IdUsuario)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    context.MateriaDelete(IdUsuario);
+                    context.SaveChanges();
 
+                    result.Correct = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
         public static ML.Result GetAllEF()
         {
             ML.Result result = new ML.Result();
@@ -283,8 +303,15 @@ namespace BL
                         foreach (var objBD in query)
                         {
                             ML.Materia materia = new ML.Materia();
+                            materia.Semestre = new ML.Semestre();
+
                             materia.IdMateria = objBD.IdMateria;
-                            //materia.Fecha = objBD.Fecha; //ya no traigo la hora
+                            materia.Nombre = objBD.NombreMateria;
+                            materia.Costo = Convert.ToDecimal(objBD.Costo);
+                            materia.Creditos = Convert.ToDecimal(objBD.Creditos);
+                            materia.Fecha = objBD.Fecha; //ya no traigo la hora
+                            materia.Semestre.Nombre = objBD.NombreSemestre;
+
                             result.Objects.Add(materia);
                         }
 
@@ -320,7 +347,7 @@ namespace BL
                         //si trajo registro
                         ML.Materia materia = new ML.Materia();
                         materia.IdMateria = query.IdMateria;
-                        materia.Nombre = query.Nombre;
+                        materia.Nombre = query.NombreMateria;
 
                         result.Object = materia; //BOXING
 

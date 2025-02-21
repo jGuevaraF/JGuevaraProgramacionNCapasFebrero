@@ -11,13 +11,12 @@ namespace DL_EF
 {
     using System;
     
-    public partial class MateriaGetAll_Result
+    public partial class MateriaGetById_Result
     {
         public int IdMateria { get; set; }
-        public string NombreMateria { get; set; }
+        public string Nombre { get; set; }
         public Nullable<decimal> Creditos { get; set; }
         public Nullable<decimal> Costo { get; set; }
-        public string NombreSemestre { get; set; }
         public string Fecha { get; set; }
     }
 }

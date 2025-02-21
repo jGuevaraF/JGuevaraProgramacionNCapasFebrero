@@ -29,7 +29,8 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Costo</th>
                             <th scope="col">Creditos</th>
-                            <th scope="col">Fecha</th>
+                            @*<th scope="col">Fecha</th>*@
+                            <th scope="col">Semestre</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,7 +50,9 @@
                                 <td>@materia.Nombre</td>
                                 <td>@materia.Costo</td>
                                 <td>@materia.Creditos</td>
-                                <td>@materia.Fecha</td>
+                                <td>@materia.Semestre.Nombre</td>
+
+                                @*<td>@materia.Fecha</td>*@
                             </tr>
                         }
                     </tbody>

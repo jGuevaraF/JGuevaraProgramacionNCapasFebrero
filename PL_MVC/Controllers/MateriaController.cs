@@ -21,21 +21,28 @@ namespace PL_MVC.Controllers
 
                 //result.Objects
                 materia.Materias = result.Objects;  //>0
-            } else
+            }
+            else
             {
                 //Imprimir un mensaje de ERROR
                 materia.Materias = new List<object>(); //0
             }
 
             return View(materia); //SOLO PUEDES PASAR UN VALOR
-                        //INT, STRING, 
-                        //OBJETO, LISTA
+                                  //INT, STRING, 
+                                  //OBJETO, LISTA
         }
 
         [HttpGet] //MOSTRANDO UNA VISTA
         public ActionResult Form(int? IdMateria)
         {
             ML.Materia materia = new ML.Materia(); //materia es vacia
+                                                    //la puerta con Semestre esta Cerrada
+            materia.Semestre = new ML.Semestre(); //ABRIR LA PUERTA
+
+            ML.Result resultDDL =  BL.Semestre.GetAll();
+            materia.Semestre.Semestres = resultDDL.Objects;
+
 
             if (IdMateria == null)
             {
@@ -61,23 +68,24 @@ namespace PL_MVC.Controllers
         [HttpPost]
         public ActionResult Form(ML.Materia materia)
         {
-            if(materia.IdMateria == 0)
+            if (materia.IdMateria == 0)
             {
                 //ADD
-            } else
-            {
-                //UPDATE
+                BL.Materia.AddEF(materia);
             }
-            BL.Materia.AddLINQ(materia);
+            else
+            {
+                BL.Materia.UpdateLINQ(materia);
+            }
 
             //GetAll
-            return RedirectToAction("Index");
+            return RedirectToAction("GetAll");
         }
 
         [HttpGet]
-        public ActionResult Delete(int IdMateria)
+        public ActionResult Delete(int? IdMateria)
         {
-            BL.Materia.Delete(IdMateria);
+            BL.Materia.DeleteEF(IdMateria.Value);
 
 
             //return View("GetAll");
@@ -86,15 +94,6 @@ namespace PL_MVC.Controllers
 
 
 
-        }
-
-        [HttpGet]
-        public ActionResult Delete(int IdMateria)
-        {
-            BL.Materia.Delete(IdMateria);
-            
-            //return View("GetAll"); 
-            return RedirectToAction("GetAll");
         }
 
     }

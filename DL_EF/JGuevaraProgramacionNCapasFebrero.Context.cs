@@ -28,8 +28,9 @@ namespace DL_EF
         }
     
         public virtual DbSet<Materia> Materias { get; set; }
+        public virtual DbSet<Semestre> Semestres { get; set; }
     
-        public virtual int MateriaAdd(string nombre, Nullable<decimal> creditos, Nullable<decimal> costo, Nullable<System.DateTime> fecha)
+        public virtual int MateriaAdd(string nombre, Nullable<decimal> creditos, Nullable<decimal> costo, string fecha)
         {
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
@@ -43,11 +44,54 @@ namespace DL_EF
                 new ObjectParameter("Costo", costo) :
                 new ObjectParameter("Costo", typeof(decimal));
     
-            var fechaParameter = fecha.HasValue ?
+            var fechaParameter = fecha != null ?
                 new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
+                new ObjectParameter("Fecha", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaAdd", nombreParameter, creditosParameter, costoParameter, fechaParameter);
+        }
+    
+        public virtual ObjectResult<MateriaGetById_Result> MateriaGetById(Nullable<int> idMateria)
+        {
+            var idMateriaParameter = idMateria.HasValue ?
+                new ObjectParameter("IdMateria", idMateria) :
+                new ObjectParameter("IdMateria", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetById_Result>("MateriaGetById", idMateriaParameter);
+        }
+    
+        public virtual int MateriaUpdate(Nullable<int> idMateria, string nombre, Nullable<decimal> creditos, Nullable<decimal> costo, string fecha)
+        {
+            var idMateriaParameter = idMateria.HasValue ?
+                new ObjectParameter("IdMateria", idMateria) :
+                new ObjectParameter("IdMateria", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var creditosParameter = creditos.HasValue ?
+                new ObjectParameter("Creditos", creditos) :
+                new ObjectParameter("Creditos", typeof(decimal));
+    
+            var costoParameter = costo.HasValue ?
+                new ObjectParameter("Costo", costo) :
+                new ObjectParameter("Costo", typeof(decimal));
+    
+            var fechaParameter = fecha != null ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaUpdate", idMateriaParameter, nombreParameter, creditosParameter, costoParameter, fechaParameter);
+        }
+    
+        public virtual int MateriaDelete(Nullable<int> idMateria)
+        {
+            var idMateriaParameter = idMateria.HasValue ?
+                new ObjectParameter("IdMateria", idMateria) :
+                new ObjectParameter("IdMateria", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaDelete", idMateriaParameter);
         }
     
         public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
