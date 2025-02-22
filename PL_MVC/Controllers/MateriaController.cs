@@ -37,17 +37,12 @@ namespace PL_MVC.Controllers
         public ActionResult Form(int? IdMateria)
         {
             ML.Materia materia = new ML.Materia(); //materia es vacia
-                                                    //la puerta con Semestre esta Cerrada
-            materia.Semestre = new ML.Semestre(); //ABRIR LA PUERTA
-
-            ML.Result resultDDL =  BL.Semestre.GetAll();
-            materia.Semestre.Semestres = resultDDL.Objects;
-
 
             if (IdMateria == null)
             {
                 //ADD
                 //Vacio
+                materia.Semestre = new ML.Semestre();
 
             }
             else
@@ -61,11 +56,18 @@ namespace PL_MVC.Controllers
                 materia = (ML.Materia)result.Object; //Materia LLENA
             }
 
+            ML.Result resultSemestres = BL.Semestre.GetAll(); //todos los semestres
+
+            materia.Semestre.Semestres = resultSemestres.Objects; //le paso todos los valores a Semestres, para que pueda pintar el DDL
+
+
+            materia.Semestre = new ML.Semestre();
+
             return View(materia);
 
         }
 
-        [HttpPost]
+        [HttpPost] //Add y Update
         public ActionResult Form(ML.Materia materia)
         {
             if (materia.IdMateria == 0)

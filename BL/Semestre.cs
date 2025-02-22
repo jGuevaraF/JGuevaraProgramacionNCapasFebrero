@@ -32,6 +32,7 @@ namespace BL
                         foreach(var item in query)
                         {
                             ML.Semestre semestre = new ML.Semestre();
+                            
                             semestre.Nombre = item.Nombre;
                             semestre.IdSemestre = item.IdSemestre;
 

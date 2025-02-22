@@ -16,8 +16,8 @@
     @Html.LabelFor(model => model.Costo)
     @Html.TextBoxFor(model => model.Costo)
 
-   
-    @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"))
+    @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion")
+
 
     <button type="submit">Enviar</button>
 }

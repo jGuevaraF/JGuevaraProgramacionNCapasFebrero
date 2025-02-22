@@ -18,5 +18,6 @@ namespace DL_EF
         public Nullable<decimal> Creditos { get; set; }
         public Nullable<decimal> Costo { get; set; }
         public string Fecha { get; set; }
+        public Nullable<int> IdSemestre { get; set; }
     }
 }

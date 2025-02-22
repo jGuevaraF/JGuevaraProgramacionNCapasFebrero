@@ -243,7 +243,7 @@ namespace BL
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities contex = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, materia.Fecha);
+                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, Convert.ToDateTime(materia.Fecha), materia.Semestre.IdSemestre);
 
                     if (rowsAffect > 0)
                     {
@@ -340,14 +340,25 @@ namespace BL
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    var query = context.MateriaGetAll().FirstOrDefault();
+                    var query = context.MateriaGetById(idMateria).FirstOrDefault();
 
                     if (query != null)
                     {
                         //si trajo registro
                         ML.Materia materia = new ML.Materia();
+                        materia.Semestre = new ML.Semestre(); //abri la puerta
+
                         materia.IdMateria = query.IdMateria;
-                        materia.Nombre = query.NombreMateria;
+                        materia.Nombre = query.Nombre;
+
+                        if (query.IdSemestre != null)
+                        {
+                            //trae un id
+                            materia.Semestre.IdSemestre = query.IdSemestre.Value;
+                        } else
+                        {
+                            materia.Semestre.IdSemestre = 0;
+                        }
 
                         result.Object = materia; //BOXING
 
