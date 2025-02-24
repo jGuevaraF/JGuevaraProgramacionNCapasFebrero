@@ -61,7 +61,7 @@ namespace PL_MVC.Controllers
             materia.Semestre.Semestres = resultSemestres.Objects; //le paso todos los valores a Semestres, para que pueda pintar el DDL
 
 
-            materia.Semestre = new ML.Semestre();
+            //materia.Semestre = new ML.Semestre();
 
             return View(materia);
 
