@@ -20,6 +20,7 @@ namespace DL_EF
         public Nullable<decimal> Costo { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public Nullable<int> IdSemestre { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         public virtual Semestre Semestre { get; set; }
     }

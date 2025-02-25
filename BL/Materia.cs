@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
@@ -243,7 +244,7 @@ namespace BL
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities contex = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, Convert.ToDateTime(materia.Fecha), materia.Semestre.IdSemestre);
+                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, /*Convert.ToDateTime(materia.Fecha)*/ materia.Fecha, materia.Semestre.IdSemestre);
 
                     if (rowsAffect > 0)
                     {
@@ -309,6 +310,7 @@ namespace BL
                             materia.Nombre = objBD.NombreMateria;
                             materia.Costo = Convert.ToDecimal(objBD.Costo);
                             materia.Creditos = Convert.ToDecimal(objBD.Creditos);
+                            materia.Status = Convert.ToBoolean(objBD.Status);
                             materia.Fecha = objBD.Fecha; //ya no traigo la hora
                             materia.Semestre.Nombre = objBD.NombreSemestre;
 
@@ -335,7 +337,6 @@ namespace BL
         public static ML.Result GetByIdEF(int idMateria)
         {
             ML.Result result = new ML.Result();
-
             try
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
@@ -380,7 +381,6 @@ namespace BL
 
             return result;
         }
-
 
         public static ML.Result AddLINQ(ML.Materia materia)
         {
@@ -511,6 +511,7 @@ namespace BL
                         //COSTO = @COSTO
                         busqueda.Costo = materia.Costo;
                         busqueda.Creditos = materia.Creditos;
+                        busqueda.IdSemestre = materia.Semestre.IdSemestre;
                         //busqueda.Fecha = Convert.ToDateTime(materia.Fecha);
 
                         int filasAfectadas = context.SaveChanges(); //ejeucta el update
@@ -538,7 +539,32 @@ namespace BL
             return result;
         }
 
-
+        public static ML.Result CambioStatus(int IdMateria, bool Status)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    int rowsAffect = context.CambioStatus(IdMateria, Status);
+                    if (rowsAffect > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
 
 
 

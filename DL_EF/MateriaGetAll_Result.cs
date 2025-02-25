@@ -19,5 +19,6 @@ namespace DL_EF
         public Nullable<decimal> Costo { get; set; }
         public string NombreSemestre { get; set; }
         public string Fecha { get; set; }
+        public Nullable<bool> Status { get; set; }
     }
 }
