@@ -6,19 +6,33 @@
 
 <link rel="stylesheet" href="~/Content/Materia/Estilos.css" />
 
-@using (Html.BeginForm("Form", "Materia", FormMethod.Post))
-{
-    @Html.HiddenFor(model => model.IdMateria)
-
-    @Html.LabelFor(model => model.Nombre, new { @style = "font-size: 100px;", @class = "", @id = "test" }) //Nombre
-    @Html.TextBoxFor(model => model.Nombre)
-
-    @Html.LabelFor(model => model.Costo)
-    @Html.TextBoxFor(model => model.Costo)
-
-    @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion")
+<div class="container">
 
 
-    <button type="submit">Enviar</button>
-}
+    @using (Html.BeginForm("Form", "Materia", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.IdMateria)
+        <div class="row">
+            <div class="mb-3 col">
+                @Html.LabelFor(model => model.Nombre, new { @class = "form-label", @id = "test" })
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+            </div>
+            <div class="mb-3 col">
+                @Html.LabelFor(model => model.Costo, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Costo, new { @class = "form-control" })
+            </div>
+            <div class="mb-3 col">
 
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col">
+                @Html.LabelFor(model => model.Semestre.IdSemestre, new { @class = "form-label" })
+                @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new {@class = "form-select", @id = "ddlSemestre" })
+            </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    }
+</div>
