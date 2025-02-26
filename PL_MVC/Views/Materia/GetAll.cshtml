@@ -24,6 +24,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th scope="col">Status</th>
                             <th scope="col">Editar</th>
                             <th scope="col">Eliminar</th>
                             <th scope="col">Nombre</th>
@@ -36,7 +37,25 @@
                     <tbody>
                         @foreach (ML.Materia materia in Model.Materias)
                         {
+
+
                             <tr>
+                                <td>
+                                    @if(materia.Status)
+                                    {
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked onchange="CambioStatus(@materia.IdMateria, this)">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onchange="CambioStatus(@materia.IdMateria, this)">
+                                        </div>
+                                    }
+
+
+                                </td>
                                 <td>
                                     <a href="@Url.Action("Form", "Materia", new {IdMateria = materia.IdMateria})" class="btn btn-warning">
                                         <i class="bi bi-pencil-square"></i>
@@ -47,6 +66,10 @@
                                         <i class="bi bi-trash3-fill"></i>
                                     </a>
                                 </td>
+
+
+
+
                                 <td>@materia.Nombre</td>
                                 <td>@materia.Costo</td>
                                 <td>@materia.Creditos</td>
@@ -70,9 +93,17 @@ else
 
 }
 
-@Scripts.Render("~/bundles/jquery")
-
+<script src="~/Scripts/jquery-3.7.0.js"></script>
 <script>
-    let div = $('div').text();
-    console.log(div)
+    function CambioStatus(IdMateria, input) {
+        let status = input.checked
+        $.ajax({
+            url: "@Url.Action("CambioStatus","Materia")",
+            data: { IdMateria: IdMateria, Status: status },
+            type: "POST",
+            dataType: "json",
+            success: {},
+            error: {}
+        })
+    }
 </script>

@@ -98,5 +98,13 @@ namespace PL_MVC.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult CambioStatus(int IdMateria, bool Status)
+        {
+            ML.Result JsonResult = BL.Materia.CambioStatus(IdMateria, Status);
+            return Json(JsonResult, JsonRequestBehavior.AllowGet);
+        }
+        
+
     }
 }
