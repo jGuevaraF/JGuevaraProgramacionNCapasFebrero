@@ -546,7 +546,8 @@ namespace BL
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    int rowsAffect = context.CambioStatus(IdMateria, Status);
+                    //int rowsAffect = context.CambioStatus(IdMateria, Status);
+                    int rowsAffect = 0;
                     if (rowsAffect > 0)
                     {
                         result.Correct = true;

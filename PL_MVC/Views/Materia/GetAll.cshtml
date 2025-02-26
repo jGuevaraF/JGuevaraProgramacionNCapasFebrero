@@ -94,16 +94,25 @@ else
 }
 
 <script src="~/Scripts/jquery-3.7.0.js"></script>
+
 <script>
     function CambioStatus(IdMateria, input) {
         let status = input.checked
         $.ajax({
-            url: "@Url.Action("CambioStatus","Materia")",
-            data: { IdMateria: IdMateria, Status: status },
-            type: "POST",
+            url: "@Url.Action("CambioStatus","Materia")", //ruta relativa
             dataType: "json",
-            success: {},
-            error: {}
+            type: "POST", //GET, POST, PUT, DELETE
+            data: { IdMateria: IdMateria, Status: status },
+            success: function (result) {
+                if (result.Correct) {
+                    //algo
+                } else {
+                    alert("Hubo un error")
+                }
+            }, //entra cuando ajax se conecto bien con el metodo
+            error: function (xhr) {
+                console.log(xhr)
+            } //entrar cuando ajax no se conecto bien con el metodo
         })
     }
 </script>
