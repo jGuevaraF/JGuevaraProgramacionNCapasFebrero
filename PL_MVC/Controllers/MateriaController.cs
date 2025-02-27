@@ -54,6 +54,18 @@ namespace PL_MVC.Controllers
                 //result.Object
                 //UNBOXING
                 materia = (ML.Materia)result.Object; //Materia LLENA
+                //ID ESTADO
+                //ID MUNICIPIO
+                //ID COLONIA
+
+
+                //DDL MUNICIPIO
+                //DDL COLONIA
+
+                //BL
+                //usuario.direccion.colonia.municipio.municipios = BL.Municipio.GetByIdEstado(usuario.Direccion.COlonia.Municipio.Estado.IdEstado)
+
+                //BL.Colonia.GetByIdMunicipio(usuario.Direccion.COlonia.Municipio.IdMunicipio)
             }
 
             ML.Result resultSemestres = BL.Semestre.GetAll(); //todos los semestres

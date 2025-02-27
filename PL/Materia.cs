@@ -10,6 +10,15 @@ namespace PL
     {
         public static void Add() //logica para pedir la informacion
         {
+
+            var objeto = new 
+            {
+                id = "media",
+                nombre = "21654"
+            };
+
+
+
             ML.Materia materia = new ML.Materia();
 
             Console.WriteLine("Dame el nombre de la materia");
