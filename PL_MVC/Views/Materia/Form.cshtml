@@ -28,12 +28,109 @@
         <div class="row">
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Semestre.IdSemestre, new { @class = "form-label" })
-                @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new {@class = "form-select", @id = "ddlSemestre" })
+                @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new { @class = "form-select", @id = "ddlSemestre" })
             </div>
         </div>
 
-    @Html.DropDownListFor(model => model.IdMateria, new SelectList(String.Empty), "Selecciona la materia", new { @id = "ddlMateria" })
+        @Html.DropDownListFor(model => model.IdMateria, new SelectList(String.Empty), "Selecciona la materia", new { @id = "ddlMateria" })
 
-    <button type="submit">Enviar</button>
-}
+        <button type="submit">Enviar</button>
+    }
 
+
+
+    <script>
+
+
+
+    function MateriaGetByIdSemestre() {
+
+
+        let ddl = $('#ddlSemestre').val(); //ACCEDER AL VALOR SELECCIONADO
+
+
+
+
+
+        $.ajax({
+
+
+            url: "@Url.Action("GetByIdSemestre", "Materia")?idSemestre="+ddl,
+
+
+            type: "GET",
+
+
+            dataType: "JSON",
+
+
+            //data => MODELOS
+
+
+            success: function (result) {
+
+
+                //console.log(result)
+
+
+                if (result.Correct) {
+
+
+                    //buscar el ddl donde pintare los valores
+
+
+                    let ddlMateria = $('#ddlMateria');
+
+
+                    ddlMateria.empty();
+                    let optionDefault = "<option>Selecciona una materia</option>"
+
+
+                    ddlMateria.append(optionDefault)
+
+                    $.each(result.Objects, function (i, valor) {
+
+
+
+
+
+
+
+
+                        let option = `<option value=${valor.IdMateria}>${valor.Nombre}</option>`
+
+
+
+
+
+                        //console.log(option)
+
+
+                        ddlMateria.append(option)
+
+
+                    })
+
+
+                }
+
+
+            },
+
+
+            error: function (xhr) {
+
+
+                console.log(xhr)
+
+
+            }
+
+
+        })
+
+
+    }
+
+
+    </script>
