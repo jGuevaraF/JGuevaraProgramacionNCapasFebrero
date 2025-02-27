@@ -130,7 +130,7 @@ namespace BL
                 //CERRAR
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("Error de conexion");
             }
@@ -163,7 +163,7 @@ namespace BL
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("Error de conexion");
             }
