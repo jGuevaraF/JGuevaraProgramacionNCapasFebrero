@@ -30,7 +30,7 @@ namespace DL_EF
         public virtual DbSet<Materia> Materias { get; set; }
         public virtual DbSet<Semestre> Semestres { get; set; }
     
-        public virtual int MateriaAdd(string nombre, Nullable<decimal> creditos, Nullable<decimal> costo, string fecha, Nullable<int> idSemestre)
+        public virtual int MateriaAdd(string nombre, Nullable<decimal> creditos, Nullable<decimal> costo, Nullable<System.DateTime> fecha, Nullable<int> idSemestre)
         {
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
@@ -44,9 +44,9 @@ namespace DL_EF
                 new ObjectParameter("Costo", costo) :
                 new ObjectParameter("Costo", typeof(decimal));
     
-            var fechaParameter = fecha != null ?
+            var fechaParameter = fecha.HasValue ?
                 new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(string));
+                new ObjectParameter("Fecha", typeof(System.DateTime));
     
             var idSemestreParameter = idSemestre.HasValue ?
                 new ObjectParameter("IdSemestre", idSemestre) :
@@ -114,6 +114,20 @@ namespace DL_EF
                 new ObjectParameter("Status", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambioStatus", idMateriaParameter, statusParameter);
+        }
+    
+        public virtual ObjectResult<MateriaGetByIdSemestre_Result> MateriaGetByIdSemestre(Nullable<int> idSemestre)
+        {
+            var idSemestreParameter = idSemestre.HasValue ?
+                new ObjectParameter("IdSemestre", idSemestre) :
+                new ObjectParameter("IdSemestre", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetByIdSemestre_Result>("MateriaGetByIdSemestre", idSemestreParameter);
+        }
+    
+        public virtual ObjectResult<SemestreGetAll_Result> SemestreGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SemestreGetAll_Result>("SemestreGetAll");
         }
     }
 }

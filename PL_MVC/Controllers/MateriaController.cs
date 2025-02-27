@@ -104,7 +104,18 @@ namespace PL_MVC.Controllers
             ML.Result JsonResult = BL.Materia.CambioStatus(IdMateria, Status);
             return Json(JsonResult, JsonRequestBehavior.AllowGet);
         }
-        
+
+
+
+
+
+        [HttpGet]
+        public JsonResult GetByIdSemestre(int idSemestre)
+        {
+            ML.Result result = BL.Materia.GetByIdSemestre(idSemestre);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

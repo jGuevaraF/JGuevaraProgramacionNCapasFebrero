@@ -72,11 +72,17 @@
     <Compile Include="MateriaGetAll_Result.cs">
       <DependentUpon>JGuevaraProgramacionNCapasFebrero.tt</DependentUpon>
     </Compile>
+    <Compile Include="MateriaGetByIdSemestre_Result.cs">
+      <DependentUpon>JGuevaraProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
     <Compile Include="MateriaGetById_Result.cs">
       <DependentUpon>JGuevaraProgramacionNCapasFebrero.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Semestre.cs">
+      <DependentUpon>JGuevaraProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SemestreGetAll_Result.cs">
       <DependentUpon>JGuevaraProgramacionNCapasFebrero.tt</DependentUpon>
     </Compile>
   </ItemGroup>

@@ -13,6 +13,47 @@ namespace BL
 {
     public class Materia
     {
+
+        public static ML.Result GetByIdSemestre (int IdSemestre)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using(DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
+                {
+                    var query = context.MateriaGetByIdSemestre(IdSemestre).ToList();
+
+                    if(query.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+
+                        foreach(var objBD in query)
+                        {
+                            ML.Materia materia = new ML.Materia();
+                            materia.IdMateria = objBD.IdMateria;
+                            materia.Nombre = objBD.Nombre;
+
+                            result.Objects.Add(materia);
+                        }
+
+                        result.Correct = true;
+                    } else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No hay registros";
+                    }
+                }
+
+            } catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
         public static ML.Result Add(ML.Materia materia)
         {
             ML.Result result = new ML.Result();
@@ -244,7 +285,7 @@ namespace BL
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities contex = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, /*Convert.ToDateTime(materia.Fecha)*/ materia.Fecha, materia.Semestre.IdSemestre);
+                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, Convert.ToDateTime(materia.Fecha), materia.Semestre.IdSemestre);
 
                     if (rowsAffect > 0)
                     {

@@ -17,12 +17,7 @@ namespace BL
             {
                 using(DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    var query = (from semestre in context.Semestres
-                                 select new
-                                 {
-                                     IdSemestre = semestre.IdSemestre,
-                                     Nombre = semestre.Nombre
-                                 }).ToList();
+                    var query = context.SemestreGetAll().ToList();
 
                     if(query.Count > 0 )
                     {

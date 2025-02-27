@@ -16,9 +16,52 @@
     @Html.LabelFor(model => model.Costo)
     @Html.TextBoxFor(model => model.Costo)
 
-    @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion")
+    @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new { @onchange = "MateriaGetByIdSemestre()", @id = "ddlSemestre" })
 
+    @Html.DropDownListFor(model => model.IdMateria, new SelectList(String.Empty), "Selecciona la materia", new { @id = "ddlMateria" })
 
     <button type="submit">Enviar</button>
 }
 
+@*<script src="~/Scripts/jquery-3.7.0.js"></script>*@
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    function MateriaGetByIdSemestre() {
+        let ddl = $('#ddlSemestre').val(); //ACCEDER AL VALOR SELECCIONADO
+
+        $.ajax({
+            url: "@Url.Action("GetByIdSemestre", "Materia")?idSemestre="+ddl,
+            type: "GET",
+            dataType: "JSON",
+            //data => MODELOS
+            success: function (result) {
+                //console.log(result)
+                if (result.Correct) {
+                    //buscar el ddl donde pintare los valores
+                    let ddlMateria = $('#ddlMateria');
+                    ddlMateria.empty();
+
+                    let optionDefault = "<option>Selecciona una materia</option>"
+                    ddlMateria.append(optionDefault)
+
+
+                    $.each(result.Objects, function (i, valor) {
+                        
+
+                        let option = `<option value=${valor.IdMateria}>${valor.Nombre}</option>`
+
+                        //console.log(option)
+                        ddlMateria.append(option)
+                    })
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr)
+            }
+        })
+    }
+
+
+
+</script>

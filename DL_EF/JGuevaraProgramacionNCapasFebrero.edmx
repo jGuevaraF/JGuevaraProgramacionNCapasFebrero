@@ -24,7 +24,7 @@
           <Property Name="IdSemestre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="20" />
         </EntityType>
-        <Association Name="FK__Materia__Semestr__38996AB5">
+        <Association Name="FK__Materia__IdSemes__239E4DCF">
           <End Role="Semestre" Type="Self.Semestre" Multiplicity="0..1" />
           <End Role="Materia" Type="Self.Materia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -36,35 +36,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="CambioStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdMateria" Type="int" Mode="In" />
-          <Parameter Name="Status" Type="bit" Mode="In" />
-        </Function>
         <Function Name="MateriaAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="Creditos" Type="decimal" Mode="In" />
           <Parameter Name="Costo" Type="decimal" Mode="In" />
-          <Parameter Name="Fecha" Type="varchar" Mode="In" />
+          <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="IdSemestre" Type="int" Mode="In" />
-        </Function>
-        <Function Name="MateriaDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdMateria" Type="int" Mode="In" />
         </Function>
         <Function Name="MateriaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="MateriaGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMateria" Type="int" Mode="In" />
         </Function>
-        <Function Name="MateriaUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdMateria" Type="int" Mode="In" />
-          <Parameter Name="Nombre" Type="varchar" Mode="In" />
-          <Parameter Name="Creditos" Type="decimal" Mode="In" />
-          <Parameter Name="Costo" Type="decimal" Mode="In" />
-          <Parameter Name="Fecha" Type="varchar" Mode="In" />
+        <Function Name="MateriaGetByIdSemestre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSemestre" Type="int" Mode="In" />
         </Function>
+        <Function Name="SemestreGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="JGuevaraProgramacionNCapasFebreroModelStoreContainer">
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semestre" EntityType="Self.Semestre" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Materia__Semestr__38996AB5" Association="Self.FK__Materia__Semestr__38996AB5">
+          <AssociationSet Name="FK__Materia__IdSemes__239E4DCF" Association="Self.FK__Materia__IdSemes__239E4DCF">
             <End Role="Semestre" EntitySet="Semestre" />
             <End Role="Materia" EntitySet="Materia" />
           </AssociationSet>
@@ -84,7 +74,7 @@
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="Creditos" Mode="In" Type="Decimal" />
             <Parameter Name="Costo" Mode="In" Type="Decimal" />
-            <Parameter Name="Fecha" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="IdSemestre" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MateriaDelete">
@@ -105,6 +95,10 @@
             <Parameter Name="IdMateria" Mode="In" Type="Int32" />
             <Parameter Name="Status" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="MateriaGetByIdSemestre" ReturnType="Collection(JGuevaraProgramacionNCapasFebreroModel.MateriaGetByIdSemestre_Result)">
+            <Parameter Name="IdSemestre" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SemestreGetAll" ReturnType="Collection(JGuevaraProgramacionNCapasFebreroModel.SemestreGetAll_Result)" />
         </EntityContainer>
         <EntityType Name="Materia">
           <Key>
@@ -156,6 +150,14 @@
           <Property Type="String" Name="Fecha" Nullable="true" MaxLength="10" />
           <Property Type="Boolean" Name="Status" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="MateriaGetByIdSemestre_Result">
+          <Property Type="Int32" Name="IdMateria" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SemestreGetAll_Result">
+          <Property Type="Int32" Name="IdSemestre" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="20" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -184,8 +186,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="MateriaAdd" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.MateriaAdd" />
-          <FunctionImportMapping FunctionImportName="MateriaDelete" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.MateriaDelete" />
-          <FunctionImportMapping FunctionImportName="MateriaUpdate" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.MateriaUpdate" />
           <FunctionImportMapping FunctionImportName="MateriaGetById" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.MateriaGetById">
             <ResultMapping>
               <ComplexTypeMapping TypeName="JGuevaraProgramacionNCapasFebreroModel.MateriaGetById_Result">
@@ -211,7 +211,22 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="CambioStatus" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.CambioStatus" />
+          <FunctionImportMapping FunctionImportName="MateriaGetByIdSemestre" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.MateriaGetByIdSemestre">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JGuevaraProgramacionNCapasFebreroModel.MateriaGetByIdSemestre_Result">
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SemestreGetAll" FunctionName="JGuevaraProgramacionNCapasFebreroModel.Store.SemestreGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JGuevaraProgramacionNCapasFebreroModel.SemestreGetAll_Result">
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
