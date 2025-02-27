@@ -15,7 +15,7 @@ namespace ML
         public string Fecha { get; set; }
         public ML.Semestre Semestre { get; set; } //FK
         public bool Status { get; set; }
-        public string NombreRol { get; set; }
+        public byte[] Imagen { get; set; }
         public List<object> Materias { get; set; } //para mandar la informacion a la vista
     }
 }

@@ -118,9 +118,6 @@ namespace PL_MVC.Controllers
         }
 
 
-
-
-
         [HttpGet]
         public JsonResult GetByIdSemestre(int idSemestre)
         {
