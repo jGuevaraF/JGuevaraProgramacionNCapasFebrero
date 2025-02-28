@@ -21,6 +21,7 @@
 
                 @Html.LabelFor(model => model.Costo)
                 @Html.TextBoxFor(model => model.Costo, new { @class = "form-control" })
+
             </div>
             <div class="mb-3 col">
 
@@ -44,13 +45,38 @@
             </div>
         </div>
 
+        <input type="file" accept=".png" name="ImagenMateria" onchange="validarImagen()" id="inptFileImagen" />
+
         <button type="submit" class="btn btn-primary mt-3">Enviar</button>
     }
+
 </div>
 
 
+@Scripts.Render("~/bundles/jquery")
 
 <script>
+
+    function validarImagen() {
+        //saber la extension del archivo que me paso
+        let input = $('#inptFileImagen')[0].files[0].name;
+
+        //obtener la extesion
+
+        //dividir el nombre en 2, atraves de un punto (.)
+
+        //compararla con extensiones de imagen (png, jpg, jpeg, webp)
+
+        //coinciden
+        //visualizar la imagen
+
+        //no coinciden
+        //input no tiene que tener ningun archivo
+            //alert (no me diste una imagen, revisalo)
+
+        console.log(input)
+    }
+
     function MateriaGetByIdSemestre() {
         let ddl = $('#ddlSemestre').val(); //ACCEDER AL VALOR SELECCIONADO
         $.ajax({
