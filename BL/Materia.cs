@@ -392,6 +392,9 @@ namespace BL
 
                         materia.IdMateria = query.IdMateria;
                         materia.Nombre = query.Nombre;
+                        materia.Costo = Convert.ToInt32(query.Costo);
+                        materia.Creditos = Convert.ToInt32(query.Creditos);
+                        materia.Fecha = query.Fecha;
 
                         if (query.IdSemestre != null)
                         {
@@ -552,6 +555,7 @@ namespace BL
                         //COSTO = @COSTO
                         busqueda.Costo = materia.Costo;
                         busqueda.Creditos = materia.Creditos;
+                        busqueda.Fecha = Convert.ToDateTime(materia.Fecha);
                         busqueda.IdSemestre = materia.Semestre.IdSemestre;
                         //busqueda.Fecha = Convert.ToDateTime(materia.Fecha);
 

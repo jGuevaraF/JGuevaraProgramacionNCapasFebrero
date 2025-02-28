@@ -18,13 +18,29 @@
                 @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
             </div>
             <div class="mb-3 col">
-
                 @Html.LabelFor(model => model.Costo)
                 @Html.TextBoxFor(model => model.Costo, new { @class = "form-control" })
-
             </div>
             <div class="mb-3 col">
+                @Html.LabelFor(model => model.Creditos)
+                @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col">
+                @Html.LabelFor(model => model.Fecha)
+                @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control" })
+            </div>
+            <div class="mb-3 col">
+                <input class="form-control" type="file" name="ImagenMateria" onchange="validarImagen(), visualizarImagen(this)" id="inptFileImagen" />
+                <div class="align-items-center">
+                    <center>
 
+                        <img id="img" src="https://cdn-icons-png.flaticon.com/512/3682/3682281.png" width="100" , height="100" />
+                    </center>
+                </div>
+            </div>
+            <div class="mb-3 col">
             </div>
         </div>
         <hr />
@@ -41,11 +57,9 @@
                 @Html.DropDownListFor(model => model.IdMateria, new SelectList(String.Empty), "Selecciona la materia", new { @id = "ddlMateria", @class = "form-select" })
             </div>
             <div class="mb-3 col">
-
             </div>
         </div>
 
-        <input type="file" accept=".png" name="ImagenMateria" onchange="validarImagen()" id="inptFileImagen" />
 
         <button type="submit" class="btn btn-primary mt-3">Enviar</button>
     }
@@ -59,22 +73,37 @@
 
     function validarImagen() {
         //saber la extension del archivo que me paso
-        let input = $('#inptFileImagen')[0].files[0].name;
-
         //obtener la extesion
-
         //dividir el nombre en 2, atraves de un punto (.)
-
-        //compararla con extensiones de imagen (png, jpg, jpeg, webp)
-
-        //coinciden
-        //visualizar la imagen
-
-        //no coinciden
-        //input no tiene que tener ningun archivo
-            //alert (no me diste una imagen, revisalo)
+        var input = $('#inptFileImagen')[0].files[0].name.split('.').pop().toLowerCase()
 
         console.log(input)
+
+        //compararla con extensiones de imagen (png, jpg, jpeg, webp)
+        var extensionesValidas = ['png', 'jpg', 'jpeg', 'webp']
+        var banderaImg = false;
+
+        for (var i = 0; i <= extensionesValidas.length; i++) {
+            if (input == extensionesValidas[i]) {
+                banderaImg = true
+            }
+        }
+
+        //NO me de una imagen
+        if (!banderaImg) {
+            alert(`Las extensiones permitidas son: ${extensionesValidas}`)
+            $('#inptFileImagen').val("");
+        }
+    }
+
+    function visualizarImagen(input) {
+        if (input.files) {
+            var reader = new FileReader();
+            reader.onload = function (elemento) {
+                $('#img').attr('src', elemento.target.result)
+            }
+            reader.readAsDataURL(input.files[0])
+        }
     }
 
     function MateriaGetByIdSemestre() {

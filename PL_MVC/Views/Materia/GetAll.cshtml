@@ -21,27 +21,25 @@
             <div class="col">
 
                 <a href="@Url.Action("Form", "Materia")" class="btn btn-success">Agregar Registro</a>
-                <table class="table">
+                <table class="table table-dark table-striped text-center">
                     <thead>
                         <tr>
                             <th scope="col">Status</th>
                             <th scope="col">Editar</th>
-                            <th scope="col">Eliminar</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Costo</th>
                             <th scope="col">Creditos</th>
-                            @*<th scope="col">Fecha</th>*@
+                            <th scope="col">Fecha</th>
                             <th scope="col">Semestre</th>
+                            <th scope="col">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (ML.Materia materia in Model.Materias)
                         {
-
-
                             <tr>
                                 <td>
-                                    @if(materia.Status)
+                                    @if (materia.Status)
                                     {
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked onchange="CambioStatus(@materia.IdMateria, this)">
@@ -53,29 +51,22 @@
                                             <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onchange="CambioStatus(@materia.IdMateria, this)">
                                         </div>
                                     }
-
-
                                 </td>
                                 <td>
                                     <a href="@Url.Action("Form", "Materia", new {IdMateria = materia.IdMateria})" class="btn btn-warning">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 </td>
+                                <td>@materia.Nombre</td>
+                                <td>@materia.Costo</td>
+                                <td>@materia.Creditos</td>
+                                <td>@materia.Fecha</td>
+                                <td>@materia.Semestre.Nombre</td>
                                 <td>
                                     <a href="@Url.Action("Delete", "Materia", new {IdMateria = materia.IdMateria})" class="btn btn-danger" onclick="return confirm('Seguro que quieres eliminarlo?')">
                                         <i class="bi bi-trash3-fill"></i>
                                     </a>
                                 </td>
-
-
-
-
-                                <td>@materia.Nombre</td>
-                                <td>@materia.Costo</td>
-                                <td>@materia.Creditos</td>
-                                <td>@materia.Semestre.Nombre</td>
-
-                                @*<td>@materia.Fecha</td>*@
                             </tr>
                         }
                     </tbody>
