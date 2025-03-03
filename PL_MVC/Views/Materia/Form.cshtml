@@ -73,9 +73,9 @@
 
     function validarImagen() {
         //saber la extension del archivo que me paso
-        //obtener la extesion
+        //obtener la extesion  Png != png
         //dividir el nombre en 2, atraves de un punto (.)
-        var input = $('#inptFileImagen')[0].files[0].name.split('.').pop().toLowerCase()
+        var nombre = $('#inptFileImagen')[0].files[0].name.split('.').pop().toLowerCase()
 
         console.log(input)
 
@@ -83,9 +83,13 @@
         var extensionesValidas = ['png', 'jpg', 'jpeg', 'webp']
         var banderaImg = false;
 
+        //for in - for of
+
         for (var i = 0; i <= extensionesValidas.length; i++) {
             if (input == extensionesValidas[i]) {
                 banderaImg = true
+                break; //solo rompre ciclos
+                //return; //rompe funciones
             }
         }
 
@@ -95,7 +99,9 @@
             $('#inptFileImagen').val("");
         }
     }
-
+    //arrayByte
+        //file
+    //base64
     function visualizarImagen(input) {
         if (input.files) {
             var reader = new FileReader();
