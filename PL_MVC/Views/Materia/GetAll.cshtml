@@ -26,6 +26,7 @@
                         <tr>
                             <th scope="col">Status</th>
                             <th scope="col">Editar</th>
+                            <th scope="col">Imagen</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Costo</th>
                             <th scope="col">Creditos</th>
@@ -56,6 +57,16 @@
                                     <a href="@Url.Action("Form", "Materia", new {IdMateria = materia.IdMateria})" class="btn btn-warning">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
+                                </td>
+                                <td>
+                                    @if(materia.Imagen == null)
+                                    {
+                                        <img id="img" src="https://cdn-icons-png.flaticon.com/512/3682/3682281.png" width="100" , height="100" />
+                                    }
+                                    else
+                                    {
+                                        <img src="data:image/*;base64,  @Convert.ToBase64String(materia.Imagen)" width="100" , height="100" />
+                                    }
                                 </td>
                                 <td>@materia.Nombre</td>
                                 <td>@materia.Costo</td>

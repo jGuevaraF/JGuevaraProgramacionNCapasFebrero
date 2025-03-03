@@ -38,6 +38,8 @@ namespace PL_MVC.Controllers
         {
             ML.Materia materia = new ML.Materia(); //materia es vacia
 
+            
+
             if (IdMateria == null)
             {
                 //ADD
@@ -82,6 +84,13 @@ namespace PL_MVC.Controllers
         [HttpPost] //Add y Update
         public ActionResult Form(ML.Materia materia)
         {
+            HttpPostedFileBase file = Request.Files["inptFileImagen"];
+
+            if (file != null)
+            {
+                materia.Imagen = ConvertirAArrayBytes(file);
+            }
+
             if (materia.IdMateria == 0)
             {
                 //ADD
@@ -125,6 +134,13 @@ namespace PL_MVC.Controllers
             ML.Result result = BL.Materia.GetByIdSemestre(idSemestre);
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public byte[] ConvertirAArrayBytes(HttpPostedFileBase Foto)
+        {
+            System.IO.BinaryReader reader = new System.IO.BinaryReader(Foto.InputStream);
+            byte[] data = reader.ReadBytes((int)Foto.ContentLength);
+            return data;
         }
 
     }
