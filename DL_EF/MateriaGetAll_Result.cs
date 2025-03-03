@@ -20,5 +20,6 @@ namespace DL_EF
         public string NombreSemestre { get; set; }
         public string Fecha { get; set; }
         public Nullable<bool> Status { get; set; }
+        public byte[] Imagen { get; set; }
     }
 }
