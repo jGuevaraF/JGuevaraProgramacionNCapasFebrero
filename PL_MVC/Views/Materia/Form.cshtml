@@ -11,7 +11,7 @@
     <hr />
     @using (Html.BeginForm("Form", "Materia", FormMethod.Post))
     {
-        @Html.HiddenFor(model => model.IdMateria)
+        @Html.HiddenFor(model => model.IdMateria) //byte[]
         <div class="row">
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Nombre, new { @id = "test" })
