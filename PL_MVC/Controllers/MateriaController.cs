@@ -38,7 +38,7 @@ namespace PL_MVC.Controllers
         {
             ML.Materia materia = new ML.Materia(); //materia es vacia
 
-            
+
 
             if (IdMateria == null)
             {
@@ -84,11 +84,18 @@ namespace PL_MVC.Controllers
         [HttpPost] //Add y Update
         public ActionResult Form(ML.Materia materia)
         {
-            HttpPostedFileBase file = Request.Files["inptFileImagen"];
+            //materia.Imagen => valorOriginal
 
-            if (file != null)
+            HttpPostedFileBase file = Request.Files["inptFileImagen"];
+            //byte = 0
+                //NO TRAE NINGUN ARCHIVO
+
+            if (file != null && file.ContentLength > 0)
             {
+                //materia.Imagen => valorOriginal
                 materia.Imagen = ConvertirAArrayBytes(file);
+                //materia.Imagen => nuevoValor
+
             }
 
             if (materia.IdMateria == 0)
