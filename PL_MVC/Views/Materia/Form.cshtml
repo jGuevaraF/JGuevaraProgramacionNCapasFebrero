@@ -9,7 +9,7 @@
 <div class="container">
     <h1 class="m-3">Agregar Materia</h1>
     <hr />
-    @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new {@enctype = "multipart/form-data"}))
+    @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
         @Html.HiddenFor(model => model.IdMateria)
         <div class="row">
@@ -29,7 +29,9 @@
         <div class="row">
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Fecha)
-                @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control" })
+                @*<input type="text" id="datepicker" name="Fecha">*@
+                @Html.TextBoxFor(model => model.Fecha, new { @id = "datepicker", @class = "form-control", placeholder = "Fecha" })
+                @*@Html.TextBoxFor(model => model.Fecha, new { @class = "form-control" })*@
             </div>
             <div class="mb-3 col">
                 <input class="form-control" type="file" name="inptFileImagen" onchange="validarImagen(), visualizarImagen(this)" id="inptFileImagen" />
@@ -67,8 +69,18 @@
 
 
 @Scripts.Render("~/bundles/jquery")
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
 <script>
+
+    $("#datepicker").datepicker({
+        dateFormat: "dd-mm-yy",
+        showAnim: "drop"
+    });
+
+
 
     function validarImagen() {
         //saber la extension del archivo que me paso
