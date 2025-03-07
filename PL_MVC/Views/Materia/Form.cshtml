@@ -9,7 +9,7 @@
 <div class="container">
     <h1 class="m-3">Agregar Materia</h1>
     <hr />
-    @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data", @onsubmit="validar(event)" }))
     {
         @Html.HiddenFor(model => model.IdMateria) //50
         @Html.HiddenFor(model => model.Imagen) //byte[]
@@ -77,6 +77,14 @@
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
 <script>
+
+    function validar(evt) {
+        //errores
+        if (si hay errores) {
+            evt.preventDefault();
+
+        }
+    }
 
     function SoloLetras(evt) {
         var entrada = String.fromCharCode(evt.which) //a
