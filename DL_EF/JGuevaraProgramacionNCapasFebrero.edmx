@@ -52,7 +52,10 @@
         <Function Name="MateriaDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMateria" Type="int" Mode="In" />
         </Function>
-        <Function Name="MateriaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="MateriaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="IdSemestre" Type="int" Mode="In" />
+        </Function>
         <Function Name="MateriaGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMateria" Type="int" Mode="In" />
         </Function>
@@ -115,7 +118,10 @@
             <Parameter Name="IdSemestre" Mode="In" Type="Int32" />
             <Parameter Name="Imagen" Mode="In" Type="Binary" />
           </FunctionImport>
-          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(JGuevaraProgramacionNCapasFebreroModel.MateriaGetAll_Result)" />
+          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(JGuevaraProgramacionNCapasFebreroModel.MateriaGetAll_Result)">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="IdSemestre" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Materia">
           <Key>

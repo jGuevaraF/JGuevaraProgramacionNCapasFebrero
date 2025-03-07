@@ -10,8 +10,19 @@
 
 <h2>Materias</h2>
 
+@using (Html.BeginForm("GetAll", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    <div class="mb-3 col">
+        @Html.LabelFor(model => model.Nombre, new { @id = "test" })
+        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+    </div>
+    <div class="mb-3 col">
+        @Html.LabelFor(model => model.Semestre.IdSemestre)
+        @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new { @id = "ddlSemestre", @class = "form-select" })
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+}
 
-@* condicion Materias > 0 *@
 
 @if (Model.Materias.Count > 0)
 {
@@ -59,7 +70,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @if(materia.Imagen == null)
+                                    @if (materia.Imagen == null)
                                     {
                                         <img id="img" src="https://cdn-icons-png.flaticon.com/512/3682/3682281.png" width="100" , height="100" />
                                     }
