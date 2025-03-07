@@ -327,14 +327,14 @@ namespace BL
             }
             return result;
         }
-        public static ML.Result GetAllEF()
+        public static ML.Result GetAllEF(ML.Materia materiaObj)
         {
             ML.Result result = new ML.Result();
             try
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities context = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    var query = context.MateriaGetAll().ToList();
+                    var query = context.MateriaGetAll(materiaObj.Nombre,materiaObj.Semestre.IdSemestre).ToList();
 
                     if (query.Count > 0)
                     {

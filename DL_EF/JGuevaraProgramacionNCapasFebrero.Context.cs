@@ -129,9 +129,17 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaAdd", nombreParameter, creditosParameter, costoParameter, fechaParameter, idSemestreParameter, imagenParameter);
         }
     
-        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
+        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll(string nombre, Nullable<int> idSemestre)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll");
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var idSemestreParameter = idSemestre.HasValue ?
+                new ObjectParameter("IdSemestre", idSemestre) :
+                new ObjectParameter("IdSemestre", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll", nombreParameter, idSemestreParameter);
         }
     }
 }

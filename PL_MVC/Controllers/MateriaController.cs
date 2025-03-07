@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Management;
 using System.Web.Mvc;
 
 namespace PL_MVC.Controllers
@@ -13,7 +14,15 @@ namespace PL_MVC.Controllers
         public ActionResult GetAll()
         {
             ML.Materia materia = new ML.Materia();
-            ML.Result result = BL.Materia.GetAllEF();
+            materia.Semestre = new ML.Semestre();
+            materia.Nombre = "";
+            materia.Semestre.IdSemestre = 0;
+
+            //Llenamos DDL de roles en busqueda abierta
+            ML.Result resultDDL = BL.Semestre.GetAll();
+            materia.Semestre.Semestres = resultDDL.Objects;
+
+            ML.Result result = BL.Materia.GetAllEF(materia);
 
             if (result.Correct)
             {
@@ -31,6 +40,29 @@ namespace PL_MVC.Controllers
             return View(materia); //SOLO PUEDES PASAR UN VALOR
                                   //INT, STRING, 
                                   //OBJETO, LISTA
+        }
+
+        [HttpPost]
+        public ActionResult GetAll(ML.Materia materia)
+        {
+            materia.Nombre = materia.Nombre == null ? "" : materia.Nombre;
+            //materia.Semestre.IdSemestre = materia.Semestre.IdSemestre == 0 ? 0 : materia.Semestre.IdSemestre;
+
+            ML.Result result = BL.Materia.GetAllEF(materia);
+            if (result.Correct)
+            {
+                materia.Materias = result.Objects;
+            }
+            else
+            {
+                materia.Materias = new List<object>();
+            }
+
+            //Llenamos DDL de roles en busqueda abierta
+            ML.Result resultDDL = BL.Semestre.GetAll();
+            materia.Semestre.Semestres = resultDDL.Objects;
+
+            return View(materia);
         }
 
         [HttpGet] //MOSTRANDO UNA VISTA
@@ -88,7 +120,7 @@ namespace PL_MVC.Controllers
 
             HttpPostedFileBase file = Request.Files["inptFileImagen"];
             //byte = 0
-                //NO TRAE NINGUN ARCHIVO
+            //NO TRAE NINGUN ARCHIVO
 
             if (file != null && file.ContentLength > 0)
             {

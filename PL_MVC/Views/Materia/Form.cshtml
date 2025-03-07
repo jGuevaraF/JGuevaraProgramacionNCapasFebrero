@@ -17,7 +17,8 @@
         <div class="row">
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Nombre, new { @id = "test" })
-                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
+                <span class="error"></span>
             </div>
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Costo)
@@ -76,6 +77,24 @@
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
 <script>
+
+    function SoloLetras(evt) {
+        var entrada = String.fromCharCode(evt.which) //a
+        var inputField = evt.target;
+        var ErrorMessage = inputField.parentNode.querySelector('.error')
+        ErrorMessage.textContent = '';
+        if (!(/[a-z A-Z]/.test(entrada))) {
+            evt.preventDefault()
+            inputField.style.borderColor = 'red';
+            ErrorMessage.textContent = 'Solo se aceptan letras';
+        }
+        else {
+            console.log("si es una letra")
+            inputField.style.borderColor = 'green';
+        }
+    }
+
+
 
     $("#datepicker").datepicker({
         dateFormat: "dd-mm-yy",
