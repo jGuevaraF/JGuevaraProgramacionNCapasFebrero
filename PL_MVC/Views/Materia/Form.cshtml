@@ -17,7 +17,7 @@
         <div class="row">
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Nombre, new { @id = "test" })
-                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)", @id="nombre" })
                 <span class="error"></span>
             </div>
             <div class="mb-3 col">
@@ -85,6 +85,15 @@
 
         }
     }
+
+    $('Form').on('submit', function (event) {
+        if ($('#nombre').val() == '') {
+            alert("Completa los campos");
+            event.preventDefault();
+        }
+    })
+
+
 
     function SoloLetras(evt) {
         var entrada = String.fromCharCode(evt.which) //a

@@ -12,9 +12,11 @@ namespace PL
         {
             //Materia.Add();
             //Materia.Delete();
-            Materia.GetAll();
+            //Materia.GetAll();
             //Materia.GetById();
             //Materia.Update();
+            Materia.CargaMasiva();
+            Console.ReadKey();
         }
     }
 }
