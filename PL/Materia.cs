@@ -101,7 +101,7 @@ namespace PL
         {
             ML.Result result = new ML.Result();
             Console.WriteLine("Entrando a carga masiva");
-            string ruta = @"C:\Users\digis\Documents\Dayan Diego Sanchez Resendiz\DAYAN DIEGO SANCHEZ RESENDIZ\Nuevos.txt";
+            string ruta = @"C:\Users\digis\Downloads\Nuevos.txt";
             try
             {
                 StreamReader streamReader = new StreamReader(ruta);
