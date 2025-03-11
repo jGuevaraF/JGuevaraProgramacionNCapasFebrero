@@ -106,8 +106,18 @@ namespace PL
             {
                 StreamReader streamReader = new StreamReader(ruta);
                 string fila = "";
-                while ((fila = streamReader.ReadLine()) != null) { 
-                    Console.WriteLine(fila);
+                while ((fila = streamReader.ReadLine()) != null) {
+
+                    string[] valores = fila.Split('|');
+
+                    ML.Materia materia = new ML.Materia();
+                    materia.Nombre = valores[0];
+                    materia.Creditos = Convert.ToDecimal(valores[1]);
+                    materia.Costo = Convert.ToDecimal(valores[2]);
+
+                    //los demas campos
+
+                    BL.Materia.Add(materia);
                 }
             }
             catch (Exception ex) {
