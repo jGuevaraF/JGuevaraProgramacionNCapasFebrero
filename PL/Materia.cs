@@ -115,6 +115,15 @@ namespace PL
                     materia.Creditos = Convert.ToDecimal(valores[1]);
                     materia.Costo = Convert.ToDecimal(valores[2]);
 
+                    //"1" o "0" => status bool
+                        //1 o 0 => INT
+                    //convert
+
+
+                    //"true" o "false"
+                        //CONVERT
+
+
                     //los demas campos
 
                     BL.Materia.Add(materia);

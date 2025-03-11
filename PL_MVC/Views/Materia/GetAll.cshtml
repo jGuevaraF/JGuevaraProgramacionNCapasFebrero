@@ -9,6 +9,11 @@
 
 
 <h2>Materias</h2>
+@using (Html.BeginForm("CargaMasiva", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    <input type="file" name="Excel" />
+    <button type="submit">enviar</button>
+}
 
 @using (Html.BeginForm("GetAll", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {

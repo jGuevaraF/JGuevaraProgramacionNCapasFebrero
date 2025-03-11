@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Management;
@@ -173,6 +175,52 @@ namespace PL_MVC.Controllers
             ML.Result result = BL.Materia.GetByIdSemestre(idSemestre);
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public ActionResult CargaMasiva()
+        {
+            //archivo
+            HttpPostedFileBase excelUsuario = Request.Files["Excel"];
+
+            string extensionPermitida = ".xlsx";
+
+            if(excelUsuario.ContentLength > 0) //el usuario si me envio un archivo
+            {
+                //test.txt
+                string extensionObtenida = Path.GetExtension(excelUsuario.FileName);
+
+                if(extensionObtenida == extensionPermitida)
+                {
+                    
+                   string ruta = Server.MapPath("~/CargaMasiva/") + Path.GetFileNameWithoutExtension(excelUsuario.FileName) + "-" + DateTime.Now.ToString("ddMMyyyyHmmssff") + ".xlsx";
+
+                    if(!System.IO.File.Exists(ruta))
+                    {
+                        excelUsuario.SaveAs(ruta);
+
+                        string cadenaConexion = ConfigurationManager.ConnectionStrings["OleDbConnection"] + ruta;
+                    } else
+                    {
+                        //vista parcial
+                        //vuelve a cargar el archivo, porque ya existe
+                    }
+
+
+                } else
+                {
+                    //vista parcial
+                    //El archivo no es un Excel
+                }
+
+            } else
+            {
+                //vistas parciales
+                //no me diste ningun archivo
+            }
+
+            return View();
         }
 
         public byte[] ConvertirAArrayBytes(HttpPostedFileBase Foto)
