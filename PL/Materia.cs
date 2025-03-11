@@ -100,14 +100,19 @@ namespace PL
         public static ML.Result CargaMasiva()
         {
             ML.Result result = new ML.Result();
-            Console.WriteLine("Entrando a carga masiva");
+
             string ruta = @"C:\Users\digis\Downloads\Nuevos.txt";
             try
             {
                 StreamReader streamReader = new StreamReader(ruta);
                 string fila = "";
-                while ((fila = streamReader.ReadLine()) != null) { 
-                    Console.WriteLine(fila);
+
+                //sacando encabezados
+                streamReader.ReadLine(); //ignorando la primer linea
+
+                //leer registros
+                while ((fila = streamReader.ReadLine()) != null) {
+                    
                 }
             }
             catch (Exception ex) {
