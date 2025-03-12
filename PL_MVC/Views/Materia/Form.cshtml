@@ -18,6 +18,10 @@
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Nombre, new { @id = "test" })
                 @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)", @id="nombre" })
+
+                <label>Confirma el Nombre</label>
+                <input type="text" id="inptConfirmarNombre" onblur="ConfirmarNombre()" />
+
                 <span class="error"></span>
             </div>
             <div class="mb-3 col">
@@ -78,16 +82,23 @@
 
 <script>
 
-    function validar(evt) {
-        //errores
-        if (si hay errores) {
-            evt.preventDefault();
+
+    function ConfirmarNombre() {
+        const nombreHelper = $('#nombre').val();
+        const nombreConfirmar = $('#inptConfirmarNombre').val();
+
+        if (nombreHelper == nombreConfirmar) {
+            alert('son iguales')
+        } else {
+            alert('no son iguales')
 
         }
     }
 
+
+
     $('Form').on('submit', function (event) {
-        if ($('#nombre').val() == '') {
+        if ($('#nombre').val() == '') { 
             alert("Completa los campos");
             event.preventDefault();
         }
@@ -131,6 +142,8 @@
         //compararla con extensiones de imagen (png, jpg, jpeg, webp)
         var extensionesValidas = ['png', 'jpg', 'jpeg', 'webp']
         var banderaImg = false;
+
+        let regex = /^((?!\.)[\w-_.]*[^.])(@@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
 
         //for in - for of
 
