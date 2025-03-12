@@ -746,7 +746,7 @@ namespace BL
             {
                 using (OleDbConnection context = new OleDbConnection(cadenaConexion))
                 {
-                    string query = "Select * from[Sheet1$]";
+                    string query = "Select * from[Hoja1$]";
                     using(OleDbCommand cmd = new OleDbCommand())
                     {
                         cmd.CommandText =  query;
@@ -767,11 +767,6 @@ namespace BL
                                 materia.Nombre = row[0].ToString();
                                 materia.Creditos = Convert.ToUInt16(row[1]);
                                 materia.Costo = Convert.ToUInt16(row[2]);
-                                materia.Fecha =  row[3].ToString();
-                                materia.Semestre =  new ML.Semestre();
-                                materia.Semestre.IdSemestre = Convert.ToUInt16(row[4]);
-                                materia.Status = Convert.ToBoolean(row[5]);
-                                materia.Imagen = null;
 
                                 result.Objects.Add(materia);
 
@@ -790,7 +785,42 @@ namespace BL
             return result;
         }
 
+        public static ML.ResultExcel ValidarExcel(List<object> registros) //result.Objects Lee el excel
+        {
+            ML.ResultExcel result = new ML.ResultExcel();
+            result.Errores = new List<object>();
 
+            int contador = 1;
+
+            foreach(ML.Materia materia in registros)
+            {
+                result.NumeroRegistro = contador;
+
+                if(materia.Nombre.Length > 50 || materia.Nombre == "" || materia.Nombre == null)
+                {
+                    result.ErrorMessage += "El nombre es muy largo o es vacio"; 
+                }
+
+                if(materia.Creditos > 50 || materia.Creditos == 0)
+                {
+                    result.ErrorMessage += "Creditos no debe ser mayor a 50 ni cero";
+                }
+
+                //las demas
+
+                if(result.ErrorMessage != "" || result.ErrorMessage != null)
+                {
+                    //hubo un error
+                    result.Errores.Add(result);
+                }
+
+                contador++;
+
+
+            }
+
+            return result;
+        }
 
 
     }

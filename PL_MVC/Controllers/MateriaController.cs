@@ -181,51 +181,108 @@ namespace PL_MVC.Controllers
         [HttpPost]
         public ActionResult CargaMasiva()
         {
-            //archivo
-            HttpPostedFileBase excelUsuario = Request.Files["Excel"];
 
-            string extensionPermitida = ".xlsx";
-
-            if(excelUsuario.ContentLength > 0) //el usuario si me envio un archivo
+            if (Session["RutaExcel"] == null)
             {
-                //test.txt
-                string extensionObtenida = Path.GetExtension(excelUsuario.FileName);
+                //que es la primera que voy a leer y validar un excel
 
-                if(extensionObtenida == extensionPermitida)
+                HttpPostedFileBase excelUsuario = Request.Files["Excel"];
+
+                string extensionPermitida = ".xlsx";
+
+                if (excelUsuario.ContentLength > 0) //el usuario si me envio un archivo
                 {
-                    
-                   string ruta = Server.MapPath("~/CargaMasiva/") + Path.GetFileNameWithoutExtension(excelUsuario.FileName) + "-" + DateTime.Now.ToString("ddMMyyyyHmmssff") + ".xlsx";
+                    //test.txt
+                    string extensionObtenida = Path.GetExtension(excelUsuario.FileName);
 
-                    if(!System.IO.File.Exists(ruta))
+                    if (extensionObtenida == extensionPermitida)
                     {
-                        excelUsuario.SaveAs(ruta);
 
-                        string cadenaConexion = ConfigurationManager.ConnectionStrings["OleDbConnection"] + ruta;
+                        string ruta = Server.MapPath("~/CargaMasiva/") + Path.GetFileNameWithoutExtension(excelUsuario.FileName) + "-" + DateTime.Now.ToString("ddMMyyyyHmmssff") + ".xlsx";
 
-                        ML.Result resultExcel = BL.Materia.LeerExcel(cadenaConexion);
-                        
-                        if (resultExcel.Objects.Count > 0) {
-                            Console.WriteLine(resultExcel.Objects);
+                        if (!System.IO.File.Exists(ruta))
+                        {
+                            excelUsuario.SaveAs(ruta);
+
+                            string cadenaConexion = ConfigurationManager.ConnectionStrings["OleDbConnection"] + ruta;
+
+                            ML.Result resultExcel = BL.Materia.LeerExcel(cadenaConexion);
+
+                            if (resultExcel.Objects.Count > 0)
+                            {
+                                ML.ResultExcel resultValidacion = BL.Materia.ValidarExcel(resultExcel.Objects);
+
+                                if (resultValidacion.Errores.Count > 0)
+                                {
+                                    //hubo un error
+                                    //mostrar una vista, una tabla 
+                                    ViewBag.ErroresExcel = resultValidacion.Errores;
+
+                                }
+                                else
+                                {
+                                    Session["RutaExcel"] = ruta;
+                                }
+                            }
                         }
-                    } else
+                        else
+                        {
+                            //vista parcial
+                            //vuelve a cargar el archivo, porque ya existe
+                        }
+
+
+                    }
+                    else
                     {
                         //vista parcial
-                        //vuelve a cargar el archivo, porque ya existe
+                        //El archivo no es un Excel
                     }
 
-
-                } else
+                }
+                else
                 {
-                    //vista parcial
-                    //El archivo no es un Excel
+                    //vistas parciales
+                    //no me diste ningun archivo
                 }
 
             } else
             {
-                //vistas parciales
-                //no me diste ningun archivo
-            }
+                //ya lei y valide un excel
+                //INSERTAR
+                string cadenaConexion = ConfigurationManager.ConnectionStrings["OleDbConnection"] + Session["RutaExcel"].ToString();
 
+                ML.Result resultLeer = BL.Materia.LeerExcel(cadenaConexion);
+
+                if(resultLeer.Objects.Count > 0)
+                {
+                    //todo lo leyo bien
+
+                    foreach(ML.Materia materia in resultLeer.Objects)
+                    {
+                        ML.Result resultInsertar = BL.Materia.AddEF(materia);
+                        if (!resultInsertar.Correct)
+                        {
+                            //mostrar error salio
+                            
+                        }
+                    }
+
+                    //cuantos inserters fueron correctos
+                    //cuantos inserters fueron incorrectos
+                        //CUales estuvieorn mal
+
+                } else
+                {
+                    //error
+                }
+
+
+            }
+            //archivo
+
+
+            Session["RutaExcel"] = null;
             return View();
         }
 
