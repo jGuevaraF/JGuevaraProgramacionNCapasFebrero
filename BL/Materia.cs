@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -738,7 +739,56 @@ namespace BL
         }
 
 
+        public static ML.Result LeerExcel(string cadenaConexion)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (OleDbConnection context = new OleDbConnection(cadenaConexion))
+                {
+                    string query = "Select * from[Sheet1$]";
+                    using(OleDbCommand cmd = new OleDbCommand())
+                    {
+                        cmd.CommandText =  query;
+                        cmd.Connection = context;
 
+                        OleDbDataAdapter adapter = new OleDbDataAdapter();
+                        adapter.SelectCommand = cmd;
+
+                        DataTable tablaMateria = new DataTable();
+                        adapter.Fill(tablaMateria);
+
+                        if(tablaMateria.Rows.Count > 0)
+                        {
+                            result.Objects = new List<object>();
+                            foreach (DataRow row in tablaMateria.Rows)
+                            {
+                                ML.Materia materia = new ML.Materia();
+                                materia.Nombre = row[0].ToString();
+                                materia.Creditos = Convert.ToUInt16(row[1]);
+                                materia.Costo = Convert.ToUInt16(row[2]);
+                                materia.Fecha =  row[3].ToString();
+                                materia.Semestre =  new ML.Semestre();
+                                materia.Semestre.IdSemestre = Convert.ToUInt16(row[4]);
+                                materia.Status = Convert.ToBoolean(row[5]);
+                                materia.Imagen = null;
+
+                                result.Objects.Add(materia);
+
+                            }
+                            result.Correct = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct= false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
 
 
 

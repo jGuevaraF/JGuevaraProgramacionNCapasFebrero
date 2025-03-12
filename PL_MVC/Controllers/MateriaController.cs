@@ -201,6 +201,12 @@ namespace PL_MVC.Controllers
                         excelUsuario.SaveAs(ruta);
 
                         string cadenaConexion = ConfigurationManager.ConnectionStrings["OleDbConnection"] + ruta;
+
+                        ML.Result resultExcel = BL.Materia.LeerExcel(cadenaConexion);
+                        
+                        if (resultExcel.Objects.Count > 0) {
+                            Console.WriteLine(resultExcel.Objects);
+                        }
                     } else
                     {
                         //vista parcial
