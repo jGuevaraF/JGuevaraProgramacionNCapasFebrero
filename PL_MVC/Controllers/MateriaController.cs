@@ -205,6 +205,7 @@ namespace PL_MVC.Controllers
                         ML.Result resultExcel = BL.Materia.LeerExcel(cadenaConexion);
                         
                         if (resultExcel.Objects.Count > 0) {
+
                             Console.WriteLine(resultExcel.Objects);
                         }
                     } else
