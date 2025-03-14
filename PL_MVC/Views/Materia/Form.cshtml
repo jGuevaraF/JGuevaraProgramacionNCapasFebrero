@@ -18,6 +18,7 @@
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Nombre, new { @id = "test" })
                 @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)", @id="nombre" })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" });
 
                 <label>Confirma el Nombre</label>
                 <input type="text" id="inptConfirmarNombre" onblur="ConfirmarNombre()" />

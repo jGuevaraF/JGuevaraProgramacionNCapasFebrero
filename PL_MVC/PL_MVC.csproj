@@ -255,7 +255,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Materia\GetAll.cshtml" />
     <Content Include="Views\Materia\Form.cshtml" />
-    <Content Include="Views\Materia\_Parcial.cshtml" />
+    <Content Include="Views\Materia\_Modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
