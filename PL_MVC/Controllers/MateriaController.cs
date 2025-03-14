@@ -217,7 +217,7 @@ namespace PL_MVC.Controllers
                                     //hubo un error
                                     //mostrar una vista, una tabla 
                                     ViewBag.ErroresExcel = resultValidacion.Errores;
-
+                                    return PartialView("_Modal");
                                 }
                                 else
                                 {
