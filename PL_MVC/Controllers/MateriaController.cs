@@ -182,7 +182,7 @@ namespace PL_MVC.Controllers
         public ActionResult CargaMasiva()
         {
 
-            if (Session["RutaExcel"] == null)
+            if (Session["RutaExcel"] == null) //Validar Excel
             {
                 //que es la primera que voy a leer y validar un excel
 
@@ -281,9 +281,15 @@ namespace PL_MVC.Controllers
             }
             //archivo
 
+            if (result.correct)
+            {
+                ViewBag.ErrorMessage = "Todo bien";
+            } else
+            {
+                ViewBag.ErrorMessage = "Error";
+            }
 
-            Session["RutaExcel"] = null;
-            return View();
+            return PartialView("_Modal");
         }
 
         public byte[] ConvertirAArrayBytes(HttpPostedFileBase Foto)

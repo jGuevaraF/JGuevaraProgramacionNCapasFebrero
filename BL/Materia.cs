@@ -794,24 +794,26 @@ namespace BL
 
             foreach(ML.Materia materia in registros)
             {
-                result.NumeroRegistro = contador;
+                ML.ResultExcel errorRegistro = new ML.ResultExcel();
+
+                errorRegistro.NumeroRegistro = contador;
 
                 if(materia.Nombre.Length > 50 || materia.Nombre == "" || materia.Nombre == null)
                 {
-                    result.ErrorMessage += "El nombre es muy largo o es vacio"; 
+                    errorRegistro.ErrorMessage += "la columna A2, esta mal"; 
                 }
 
                 if(materia.Creditos > 50 || materia.Creditos == 0)
                 {
-                    result.ErrorMessage += "Creditos no debe ser mayor a 50 ni cero";
+                    errorRegistro.ErrorMessage += "La columna de Creditos esta mal, poruqejn f";
                 }
 
                 //las demas
 
-                if(result.ErrorMessage != "" || result.ErrorMessage != null)
+                if(errorRegistro.ErrorMessage != "" || errorRegistro.ErrorMessage != null)
                 {
                     //hubo un error
-                    result.Errores.Add(result);
+                    result.Errores.Add(errorRegistro);
                 }
 
                 contador++;
