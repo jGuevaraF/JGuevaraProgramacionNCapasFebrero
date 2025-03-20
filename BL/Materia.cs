@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -738,9 +739,90 @@ namespace BL
         }
 
 
+        public static ML.Result LeerExcel(string cadenaConexion)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (OleDbConnection context = new OleDbConnection(cadenaConexion))
+                {
+                    string query = "Select * from[Hoja1$]";
+                    using(OleDbCommand cmd = new OleDbCommand())
+                    {
+                        cmd.CommandText =  query;
+                        cmd.Connection = context;
+
+                        OleDbDataAdapter adapter = new OleDbDataAdapter();
+                        adapter.SelectCommand = cmd;
+
+                        DataTable tablaMateria = new DataTable();
+                        adapter.Fill(tablaMateria);
+
+                        if(tablaMateria.Rows.Count > 0)
+                        {
+                            result.Objects = new List<object>();
+                            foreach (DataRow row in tablaMateria.Rows)
+                            {
+                                ML.Materia materia = new ML.Materia();
+                                materia.Nombre = row[0].ToString();
+                                materia.Creditos = Convert.ToUInt16(row[1]);
+                                materia.Costo = Convert.ToUInt16(row[2]);
+
+                                result.Objects.Add(materia);
+
+                            }
+                            result.Correct = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct= false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+        public static ML.ResultExcel ValidarExcel(List<object> registros) //result.Objects Lee el excel
+        {
+            ML.ResultExcel result = new ML.ResultExcel();
+            result.Errores = new List<object>();
+
+            int contador = 1;
+
+            foreach(ML.Materia materia in registros)
+            {
+                ML.ResultExcel errorRegistro = new ML.ResultExcel();
+
+                errorRegistro.NumeroRegistro = contador;
+
+                if(materia.Nombre.Length > 50 || materia.Nombre == "" || materia.Nombre == null)
+                {
+                    errorRegistro.ErrorMessage += "la columna A2, esta mal"; 
+                }
+
+                if(materia.Creditos > 50 || materia.Creditos == 0)
+                {
+                    errorRegistro.ErrorMessage += "La columna de Creditos esta mal, poruqejn f";
+                }
+
+                //las demas
+
+                if(errorRegistro.ErrorMessage != "" || errorRegistro.ErrorMessage != null)
+                {
+                    //hubo un error
+                    result.Errores.Add(errorRegistro);
+                }
+
+                contador++;
 
 
+            }
 
+            return result;
+        }
 
 
     }

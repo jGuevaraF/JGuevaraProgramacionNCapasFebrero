@@ -1,8 +1,12 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-
+@{ 
+    ML.Materia materia = new ML.Materia();
+}
 @* container, col, row *@
+
+@Html.Partial("~/Views/Materia/_Parcial.cshtml", materia)
 
 <div class="container">
     <div class="row">

@@ -3,12 +3,18 @@
 @{
     ViewBag.Title = "GetAll";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var errores = ViewBag.Errores;
 }
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 
 <h2>Materias</h2>
+@using (Html.BeginForm("CargaMasiva", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    <input type="file" name="Excel" />
+    <button type="submit">enviar</button>
+}
 
 @using (Html.BeginForm("GetAll", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
