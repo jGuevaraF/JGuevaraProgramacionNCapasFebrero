@@ -81,6 +81,13 @@
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
 <script>
+    var urlDDLMunicipio = "@Url.Action("GetAll", "Materia")";
+</script>
+
+<script src="~/Scripts/Validaciones/FormMateria/validaciones.js"></script>
+<script src="~/Scripts/Validaciones/FormMateria/Test.js"></script>
+
+<script>
 
 
     function ConfirmarNombre() {
@@ -177,7 +184,7 @@
     function MateriaGetByIdSemestre() {
         let ddl = $('#ddlSemestre').val(); //ACCEDER AL VALOR SELECCIONADO
         $.ajax({
-            url: "@Url.Action("GetByIdSemestre", "Materia")?idSemestre="+ddl,
+            url: /Materia/GetAll ?idSemestre="+ddl,
             type: "GET",
             dataType: "JSON",
             //data => MODELOS
