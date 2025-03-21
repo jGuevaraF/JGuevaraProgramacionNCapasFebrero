@@ -18,6 +18,9 @@
             <div class="mb-3 col">
                 @Html.LabelFor(model => model.Nombre, new { @id = "test" })
                 @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)", @id="nombre" })
+
+                <input type="text" id="inptNombre" />
+                <input type="text" id="inptApellido" />
                 @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" });
 
                 <label>Confirma el Nombre</label>
@@ -183,10 +186,11 @@
     }
 
     function MateriaGetByIdSemestre() {
+        data : JSON.stringify(json)
         let ddl = $('#ddlSemestre').val(); //ACCEDER AL VALOR SELECCIONADO
         $.ajax({
             url: /Materia/GetAll ?idSemestre="+ddl,
-            type: "GET",
+            type: "POST",
             dataType: "JSON",
             //data => MODELOS
             success: function (result) {

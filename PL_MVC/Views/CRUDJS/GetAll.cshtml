@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-target="#staticBackdrop" onclick="Formulario()">
+    Agregar Materia
+</button>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Creditos</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyMateria"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idMateria" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<script>
+    var pathGetAll = "@Url.Action("GetAllJS")"
+    var pathAddUpdate = "@Url.Action("Form")"
+    var GetById = "@Url.Action("GetById")"
+    var Delete = "@Url.Action("Delete")"
+</script>
+
+<script src="~/Scripts/MateriaCRUD/CRUD.js"></script>

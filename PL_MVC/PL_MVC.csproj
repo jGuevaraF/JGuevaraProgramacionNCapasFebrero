@@ -169,6 +169,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CRUDJSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MateriaController.cs" />
@@ -218,6 +219,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MateriaCRUD\CRUD.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Validaciones\FormMateria\Test.js" />
     <Content Include="Scripts\Validaciones\FormMateria\validaciones.js" />
@@ -258,6 +260,7 @@
     <Content Include="Views\Materia\GetAll.cshtml" />
     <Content Include="Views\Materia\Form.cshtml" />
     <Content Include="Views\Materia\_Modal.cshtml" />
+    <Content Include="Views\CRUDJS\GetAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

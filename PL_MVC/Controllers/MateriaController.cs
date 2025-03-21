@@ -281,13 +281,13 @@ namespace PL_MVC.Controllers
             }
             //archivo
 
-            if (result.correct)
-            {
-                ViewBag.ErrorMessage = "Todo bien";
-            } else
-            {
-                ViewBag.ErrorMessage = "Error";
-            }
+            //if (result.correct)
+            //{
+            //    ViewBag.ErrorMessage = "Todo bien";
+            //} else
+            //{
+            //    ViewBag.ErrorMessage = "Error";
+            //}
 
             return PartialView("_Modal");
         }

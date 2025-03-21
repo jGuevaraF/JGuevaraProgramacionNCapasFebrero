@@ -22,6 +22,8 @@ namespace ML
         public ML.Semestre Semestre { get; set; } //FK
         public bool Status { get; set; }
         public byte[] Imagen { get; set; }
+
+        public string ImagenBase64 { get; set; }
         public List<object> Materias { get; set; } //para mandar la informacion a la vista
     }
 }

@@ -199,6 +199,8 @@ namespace BL
                             materia.Creditos = Convert.ToDecimal(row[2].ToString());
                             materia.Costo = Convert.ToDecimal(row[3].ToString());
 
+                            //materia.ImagenBase64 = Convert.ToBase64String(row[5]);
+
                             result.Objects.Add(materia);
                         }
                         result.Correct = true;
