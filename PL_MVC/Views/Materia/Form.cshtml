@@ -181,7 +181,7 @@
             reader.onload = function (elemento) {
                 $('#img').attr('src', elemento.target.result)
             }
-            reader.readAsDataURL(input.files[0])
+            usuario.ImagenBase64 = reader.readAsDataURL(input.files[0])
         }
     }
 

@@ -16,8 +16,15 @@ namespace PL_MVC.Controllers
 
 
         [HttpGet]
-        public JsonResult GetAllJS()
+        public JsonResult Add(ML.Usuario usuario)
         {
+            if(usuario.ImagenBase64 != "") //httppostfilebase
+            {
+                usuario.Imagen = Convert.FromBase64String(usuario.ImagenBase64);
+            }
+
+            BL.Usuario.Add(usuario);
+
             ML.Materia materia = new ML.Materia();
             materia.Nombre = "";
 

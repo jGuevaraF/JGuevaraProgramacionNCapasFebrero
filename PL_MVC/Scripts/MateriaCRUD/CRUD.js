@@ -38,27 +38,43 @@ function GetAll() {
     })
 }
 
-function Add() {
+function Ajax() {
 
-}  
+    var json = ObtenerInfoFormulario();
+
+    Guardar(json);
+} 
 
 function Update() {
 
 }
 
-function Guardar() {
+function Guardar(json) {
     //validaciones
 
-    if (IdMateria == 0) {
+    if (json.IdMateria == 0) {
         Add();
     } else {
         Update();
     }
 }
+
+function ObtenerInfoFormulario() {
+    //id
+    //nombre
+    var json= {
+        "idMateria" : 234
+    }
+
+    var json = {
+        "Nombre": 234
+    }
+
+
+    return json;
+}
 function Formulario() {
-    cleanModal();
-    DDLROl();
-    DLLEstado();
+
     showModal();
 }
 function showModal() {
