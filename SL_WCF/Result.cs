@@ -16,8 +16,6 @@ namespace SL_WCF
         [DataMember]
         public string ErrorMessage { get; set; } //Cual es el error especifico
         [DataMember]
-        public Exception Ex { get; set; } //traer TODO el error a detalle
-        [DataMember]
         public object Object { get; set; } //MOSTRAR 1 registro
         [DataMember]
         public List<object> Objects { get; set; } //MOSTRAR N Registros

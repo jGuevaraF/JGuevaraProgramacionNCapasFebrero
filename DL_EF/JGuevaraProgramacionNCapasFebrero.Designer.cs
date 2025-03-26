@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\digis\Downloads\FEB\DL_EF\JGuevaraProgramacionNCapasFebrero.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\digis\Documents\Jorge Guevara Flores\Entrenamiento\NET Febrero 2025\JGuevaraProgramacionNCapas\DL_EF\JGuevaraProgramacionNCapasFebrero.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

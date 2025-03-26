@@ -288,7 +288,7 @@ namespace BL
             {
                 using (DL_EF.JGuevaraProgramacionNCapasFebreroEntities contex = new DL_EF.JGuevaraProgramacionNCapasFebreroEntities())
                 {
-                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, Convert.ToDateTime(materia.Fecha), materia.Semestre.IdSemestre,materia.Imagen);
+                    int rowsAffect = contex.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo, Convert.ToDateTime(materia.Fecha), materia.Semestre.IdSemestre);
 
                     if (rowsAffect > 0)
                     {
@@ -357,7 +357,7 @@ namespace BL
                             materia.Status = Convert.ToBoolean(objBD.Status);
                             materia.Fecha = objBD.Fecha; //ya no traigo la hora
                             materia.Semestre.Nombre = objBD.NombreSemestre;
-                            materia.Imagen = objBD.Imagen;
+                            //materia.Imagen = objBD.Imagen;
 
                             result.Objects.Add(materia);
                         }

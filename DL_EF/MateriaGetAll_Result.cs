@@ -17,9 +17,8 @@ namespace DL_EF
         public string NombreMateria { get; set; }
         public Nullable<decimal> Creditos { get; set; }
         public Nullable<decimal> Costo { get; set; }
-        public string NombreSemestre { get; set; }
         public string Fecha { get; set; }
+        public string NombreSemestre { get; set; }
         public Nullable<bool> Status { get; set; }
-        public byte[] Imagen { get; set; }
     }
 }

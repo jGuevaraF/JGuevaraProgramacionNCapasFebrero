@@ -40,7 +40,6 @@ namespace SL_WCF
             {
                 Correct = result.Correct,
                 ErrorMessage = result.ErrorMessage,
-                Ex = result.Ex,
                 Object = result.Object,
                 Objects = result.Objects,
             };
@@ -49,11 +48,24 @@ namespace SL_WCF
         public SL_WCF.Result Add(ML.Materia materia) //metodo implementado
         {
             ML.Result result = BL.Materia.Add(materia);
+
+            return new SL_WCF.Result
+            {
+                Correct = result.Correct,
+                ErrorMessage = result.ErrorMessage + result.Ex.InnerException,
+                Object = result.Object,
+                Objects = result.Objects,
+            };
+        }
+
+        public SL_WCF.Result GetAll(ML.Materia materia)
+        {
+            ML.Result result = BL.Materia.GetAllEF(materia);
+
             return new SL_WCF.Result
             {
                 Correct = result.Correct,
                 ErrorMessage = result.ErrorMessage,
-                Ex = result.Ex,
                 Object = result.Object,
                 Objects = result.Objects,
             };

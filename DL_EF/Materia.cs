@@ -21,7 +21,6 @@ namespace DL_EF
         public Nullable<System.DateTime> Fecha { get; set; }
         public Nullable<int> IdSemestre { get; set; }
         public Nullable<bool> Status { get; set; }
-        public byte[] Imagen { get; set; }
     
         public virtual Semestre Semestre { get; set; }
     }
