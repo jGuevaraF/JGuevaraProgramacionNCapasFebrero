@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Management;
 using System.Web.Mvc;
@@ -15,14 +16,20 @@ namespace PL_MVC.Controllers
         [HttpGet] //DECORADORES
         public ActionResult GetAll()
         {
+            GetAllREST();
             ML.Materia materia = new ML.Materia();
             materia.Semestre = new ML.Semestre();
             materia.Nombre = "";
             materia.Semestre.IdSemestre = 0;
 
+
+            string cadenaInterpolada = $"nombren {materia.Nombre}";
             //Llenamos DDL de roles en busqueda abierta
-            ML.Result resultDDL = BL.Semestre.GetAll();
-            materia.Semestre.Semestres = resultDDL.Objects;
+            //ML.Result resultDDL = BL.Semestre.GetAll();
+            MateriaReference.MateriaClient objeto = new MateriaReference.MateriaClient();
+            var resultDDL = objeto.GetAll(materia);
+
+            materia.Semestre.Semestres = resultDDL.Objects.ToList();
 
             ML.Result result = BL.Materia.GetAllEF(materia);
 
@@ -188,7 +195,9 @@ namespace PL_MVC.Controllers
 
                 HttpPostedFileBase excelUsuario = Request.Files["Excel"];
 
-                string extensionPermitida = ".xlsx";
+                string extension = ConfigurationManager.AppSettings["ExtensionExcel"].ToString();
+
+                string extensionPermitida = extension;
 
                 if (excelUsuario.ContentLength > 0) //el usuario si me envio un archivo
                 {
@@ -299,5 +308,50 @@ namespace PL_MVC.Controllers
             return data;
         }
 
+
+        [NonAction]
+        public ML.Result GetAllREST()
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (var cliente = new HttpClient())
+                {
+                    //URI VS URL
+                    string endpPont = ConfigurationManager.AppSettings["UsuarioEndPoint"].ToString();
+
+                    cliente.BaseAddress = new Uri(endpPont);
+
+                    var respuesta = cliente.GetAsync("GetAll");
+                    respuesta.Wait();
+
+                    var resultServicio = respuesta.Result;
+
+                    if (resultServicio.IsSuccessStatusCode)
+                    {
+                        var readTask = resultServicio.Content.ReadAsAsync<ML.Result>(); 
+                        readTask.Wait();
+
+                        result.Objects = new List<object>();
+                        foreach(var item in readTask.Result.Objects)
+                        {
+                            ML.Materia materia = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(item.ToString());
+
+                            result.Objects.Add(materia);
+                        }
+
+                    }
+                }
+
+            } catch(Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
     }
 }

@@ -186,6 +186,9 @@ namespace BL
                     DataTable dataTable = new DataTable();
                     adapter.Fill(dataTable);
 
+                    DataSet dataSet = new DataSet();
+                    dataSet.Tables.Add(dataTable);
+
                     if (dataTable.Rows.Count > 0)
                     {
                         //si trae registros

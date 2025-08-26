@@ -15,28 +15,28 @@ namespace PL_MVC.Controllers
         }
 
 
-        [HttpGet]
-        public JsonResult Add(ML.Usuario usuario)
-        {
-            if(usuario.ImagenBase64 != "") //httppostfilebase
-            {
-                usuario.Imagen = Convert.FromBase64String(usuario.ImagenBase64);
-            }
+        //[HttpGet]
+        //public JsonResult Add(ML.Usuario usuario)
+        //{
+        //    if(usuario.ImagenBase64 != "") //httppostfilebase
+        //    {
+        //        usuario.Imagen = Convert.FromBase64String(usuario.ImagenBase64);
+        //    }
 
-            BL.Usuario.Add(usuario);
+        //    BL.Usuario.Add(usuario);
 
-            ML.Materia materia = new ML.Materia();
-            materia.Nombre = "";
+        //    ML.Materia materia = new ML.Materia();
+        //    materia.Nombre = "";
 
-            //JsonResultMaxLenght
-            ML.Result result = BL.Materia.GetAll();
+        //    //JsonResultMaxLenght
+        //    ML.Result result = BL.Materia.GetAll();
 
-            JsonResult jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+        //    JsonResult jsonResult = Json(result, JsonRequestBehavior.AllowGet);
 
-            //Set the MaxJsonLength to the maximum value.
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
-        }
+        //    //Set the MaxJsonLength to the maximum value.
+        //    jsonResult.MaxJsonLength = int.MaxValue;
+        //    return jsonResult;
+        //}
 
         //public JsonResult Add(ML.Materia materia)
         //{
